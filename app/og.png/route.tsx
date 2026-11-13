@@ -2,9 +2,13 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
-export const alt = "Luma — Build skills that actually move you forward.";
-export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
+/**
+ * Open Graph / Twitter image, served at /og.png and referenced from the [locale] layout metadata.
+ * A route handler instead of the opengraph-image file convention: a root-level metadata image is
+ * resolved before the [locale] layout sets metadataBase, which makes the build warn. The file
+ * extension also keeps it out of the i18n proxy. Prerendered at build time (no request data).
+ */
+const size = { width: 1200, height: 630 };
 
 /** Reads local fonts/photo once (cached) — keeps the OG image statically generated at build time. */
 async function loadAssets() {
@@ -22,7 +26,7 @@ async function loadAssets() {
   };
 }
 
-export default async function OpengraphImage() {
+export async function GET() {
   const assets = await loadAssets();
   const jakarta = Buffer.from(assets.jakarta, "base64");
   const inter = Buffer.from(assets.inter, "base64");

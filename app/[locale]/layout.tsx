@@ -39,11 +39,13 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">): Pr
       url: path,
       locale: localeTags[locale].og,
       alternateLocale: routing.locales.filter((l) => l !== locale).map((l) => localeTags[l].og),
+      images: [{ url: "/og.png", width: 1200, height: 630, alt: t("ogTitle") }],
     },
     twitter: {
       card: "summary_large_image",
       title: t("ogTitle"),
       description: t("description"),
+      images: ["/og.png"],
     },
   };
 }

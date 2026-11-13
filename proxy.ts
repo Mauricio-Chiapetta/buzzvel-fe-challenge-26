@@ -5,6 +5,8 @@ import { routing } from "./i18n/routing";
 export default createMiddleware(routing);
 
 export const config = {
-  // Skip API/internal paths, files with an extension and metadata routes without one.
-  matcher: "/((?!api|_next|_vercel|opengraph-image|twitter-image|.*\..*).*)",
+  // Skip API/internal paths and anything with a file extension (images, og.png, icons…).
+  // The backslash must be doubled: a single "\." is just "." in a JS string, which matches
+  // every path and silently disables the proxy (unknown URLs would never reach the 404).
+  matcher: "/((?!api|_next|_vercel|.*\\..*).*)",
 };

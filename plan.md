@@ -125,14 +125,14 @@ Básicos mas significativos:
 - [x] Script `npm test` documentado no README.
 
 ### Etapa 5 — Performance e qualidade
-- [x] `npm run build` sem erros; `npm run lint` e `tsc --noEmit` limpos. Único aviso: `metadataBase` do `app/opengraph-image.tsx` (resolvido antes do layout `[locale]`); o Next só emite esse aviso fora da Vercel (sem a env `VERCEL`).
+- [x] `npm run build` sem erros nem avisos; `npm run lint` e `tsc --noEmit` limpos. (O aviso de `metadataBase` vinha do `app/opengraph-image.tsx` na raiz; virou a rota `app/og.png/route.tsx`, referenciada no `generateMetadata` do layout.)
 - [x] Imagens: `sizes` em todas, `loading="eager"` + `fetchPriority="high"` só no Hero, AVIF/WebP via `next/image`.
 - [x] Fontes: Inter e Plus Jakarta Sans são fontes variáveis (um arquivo por família, subset latin), módulo compartilhado em `lib/fonts.ts`.
 - [ ] Lighthouse (mobile e desktop) — meta ≥ 90 em todas as categorias; salvar screenshot.
 - [x] Verificar que componentes client são mínimos (seções estáticas são Server Components; client só onde há estado/animação).
 
 ### Etapa 6 — Entrega
-- [ ] Deploy na Vercel (live preview).
+- [x] Deploy na Vercel (live preview): https://luma-buzzvel-fechallenge26.vercel.app/
 - [ ] README em inglês com:
   - Instalar, rodar, buildar, testar.
   - Decisões técnicas e interpretações de ambiguidades do design.

@@ -3,8 +3,8 @@
 A responsive landing page for **Luma**, a fictional online-courses platform, built from the
 "Buzzvel FE Test 2026" Figma file with **Next.js (App Router), TypeScript and Tailwind CSS**.
 
-- **Live preview:** _TODO: Vercel URL_
-- **Languages:** English at `/` (the design language) and Portuguese at `/pt`. See [English / Portuguese](#english--portuguese).
+- **Live preview:** https://luma-buzzvel-fechallenge26.vercel.app/
+- **Languages:** English at [`/`](https://luma-buzzvel-fechallenge26.vercel.app/) (the design language) and Portuguese at [`/pt`](https://luma-buzzvel-fechallenge26.vercel.app/pt). See [English / Portuguese](#english--portuguese).
 
 > **Note for reviewers:** the site opens in **English**, exactly as designed. The browser language does **not** redirect you. A Portuguese version is available from the language button in the header (or at `/pt`).
 
@@ -54,7 +54,7 @@ app/
   [locale]/            layout (fonts, metadata, providers), page, localized 404
   global-not-found.tsx 404 for URLs outside the locale layout
   globals.css          Figma tokens (colors, type scale, shadows, motion) + base styles
-  opengraph-image.tsx  OG image generated at build time (next/og)
+  og.png/route.tsx     Open Graph image generated at build time (next/og)
 components/
   ui/                  reusable primitives: Button, Container, SectionHeading, CategoryCard, ContactForm…
   sections/            one component per page section (Hero, Categories, FeaturedCourse…)
@@ -168,7 +168,7 @@ Small additions that don't change the design: a back-to-top button in the footer
 - **Figma assets and tokens.**
   - Some photos were JPEGs exported with a `.png` extension; I renamed them to `.jpg`.
   - The tokens named `backgrounnd-*` (typo) were normalised to `background-*`.
-- **Page identity.** The favicon and app icons were created from the "l." mark of the logo (they don't exist in the Figma). The Open Graph image is generated at build time with `next/og`.
+- **Page identity.** The favicon and app icons were created from the "l." mark of the logo (they don't exist in the Figma). The Open Graph image is generated at build time with `next/og` and served at `/og.png`. It is a route handler rather than the `opengraph-image` file convention, because with the root layout under `[locale]` a root-level metadata image is resolved without `metadataBase`.
 
 ## Tests
 
@@ -197,7 +197,6 @@ Components render with the same providers as the app (next-intl + strict `LazyMo
 
 - **No end-to-end tests.** There are no E2E or automated accessibility (axe) tests yet. Interactions are covered at the component level, and accessibility was checked manually.
 - **Mock content.** The three extra featured courses reuse photos from the People section.
-- **Local build warning.** Locally, `next build` prints a `metadataBase` warning. It comes from the root `opengraph-image`, which Next resolves before the `[locale]` layout that sets `metadataBase`. Next only emits it outside Vercel, and the deployed URLs are absolute.
 - **Experimental flag.** `global-not-found` relies on Next 16's experimental `globalNotFound` flag. It only serves URLs that never reach the locale layout; the localized 404 covers the rest.
 
 ## Time spent
