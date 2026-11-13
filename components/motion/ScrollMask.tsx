@@ -56,14 +56,21 @@ type ScrollMaskBlockProps = {
   className?: string;
 };
 
-/** Reveals a whole block (eyebrow, paragraph…) through one mask. */
+/**
+ * Reveals a whole block (eyebrow, paragraph…) through one mask.
+ * The in-view trigger lives on the outer mask: the inner element starts fully clipped by the
+ * overflow-hidden parent, so an IntersectionObserver on it would never fire.
+ */
 export function ScrollMaskBlock({ children, delay = 0, className }: ScrollMaskBlockProps) {
   return (
-    <div className={cn("overflow-hidden pb-[0.12em] -mb-[0.12em]", className)}>
+    <m.div
+      className={cn("overflow-hidden pb-[0.12em] -mb-[0.12em]", className)}
+      initial="hidden"
+      whileInView="show"
+      viewport={revealViewport}
+      variants={{ hidden: {}, show: {} }}
+    >
       <m.div
-        initial="hidden"
-        whileInView="show"
-        viewport={revealViewport}
         variants={{
           hidden: slideUp.hidden,
           show: { y: "0%", transition: { duration: 0.9, delay, ease: EASE_OUT_EXPO } },
@@ -71,6 +78,6 @@ export function ScrollMaskBlock({ children, delay = 0, className }: ScrollMaskBl
       >
         {children}
       </m.div>
-    </div>
+    </m.div>
   );
 }
