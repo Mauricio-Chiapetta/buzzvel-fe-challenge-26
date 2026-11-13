@@ -1,0 +1,45 @@
+{
+  "metadata": {
+    "title": "Luma | Cursos online práticos",
+    "ogTitle": "Luma | Desenvolva habilidades que realmente fazem você avançar",
+    "description": "Cursos práticos ensinados por quem faz o trabalho todos os dias. Aprenda design, tecnologia, negócios e muito mais — uma aula focada de cada vez."
+  },
+  "common": {
+    "skipToContent": "Pular para o conteúdo",
+    "logoAlt": "Luma — início",
+    "mainNav": "Principal",
+    "mobileNav": "Menu mobile",
+    "openMenu": "Abrir menu",
+    "closeMenu": "Fechar menu",
+    "chooseLanguage": "Escolher idioma"
+  },
+  "hero": {
+    "trust": "<strong>Mais de {count}</strong> alunos confiam",
+    "rating": "Nota média {value}"
+  },
+  "featured": {
+    "announce": "Curso em destaque: {title}",
+    "instructor": "com {name} · {role}",
+    "details": "Detalhes do curso"
+  },
+  "howItWorks": {
+    "step": "Passo {number}"
+  },
+  "testimonial": {
+    "label": "O que dizem os alunos"
+  },
+  "contact": {
+    "errors": {
+      "nameRequired": "Por favor, informe seu nome.",
+      "nameShort": "Seu nome deve ter pelo menos 2 caracteres.",
+      "emailRequired": "Por favor, informe seu e-mail.",
+      "emailInvalid": "Por favor, informe um e-mail válido.",
+      "messageRequired": "Conte como podemos ajudar.",
+      "messageShort": "Sua dúvida deve ter pelo menos 10 caracteres."
+    }
+  },
+  "footer": {
+    "copyright": "© {year} Luma Learning",
+    "backToTop": "Voltar ao topo"
+  }
+}

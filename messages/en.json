@@ -1,0 +1,45 @@
+{
+  "metadata": {
+    "title": "Luma | Practical online courses",
+    "ogTitle": "Luma | Build skills that actually move you forward",
+    "description": "Practical courses taught by people who do the work every day. Learn design, technology, business and more — one focused lesson at a time."
+  },
+  "common": {
+    "skipToContent": "Skip to content",
+    "logoAlt": "Luma — home",
+    "mainNav": "Main",
+    "mobileNav": "Mobile",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "chooseLanguage": "Choose language"
+  },
+  "hero": {
+    "trust": "<strong>Trusted by {count}+</strong> learners",
+    "rating": "{value} avg rating"
+  },
+  "featured": {
+    "announce": "Featured course: {title}",
+    "instructor": "with {name} · {role}",
+    "details": "Course details"
+  },
+  "howItWorks": {
+    "step": "Step {number}"
+  },
+  "testimonial": {
+    "label": "What learners say"
+  },
+  "contact": {
+    "errors": {
+      "nameRequired": "Please enter your name.",
+      "nameShort": "Your name should have at least 2 characters.",
+      "emailRequired": "Please enter your email.",
+      "emailInvalid": "Please enter a valid email address.",
+      "messageRequired": "Please tell us how we can help.",
+      "messageShort": "Your question should have at least 10 characters."
+    }
+  },
+  "footer": {
+    "copyright": "© {year} Luma Learning",
+    "backToTop": "Back to top"
+  }
+}

@@ -33,6 +33,7 @@ export function Categories({ content }: CategoriesProps) {
               className="flex"
             >
               <CategoryCard
+                id={item.id}
                 index={index}
                 icon={item.icon}
                 title={item.title}

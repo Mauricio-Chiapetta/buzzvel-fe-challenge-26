@@ -49,6 +49,10 @@ export function ButtonLink({
   ...props
 }: ButtonLinkProps) {
   return (
-    <Link className={cn(buttonClasses({ variant, size, fullWidth }), className)} {...props} />
+    <Link
+      data-cursor="wrap"
+      className={cn(buttonClasses({ variant, size, fullWidth }), className)}
+      {...props}
+    />
   );
 }

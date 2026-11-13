@@ -1,6 +1,7 @@
 "use client";
 
 import { m } from "motion/react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import type { NavLink } from "@/data/navigation";
 import { cn } from "@/lib/cn";
@@ -12,10 +13,11 @@ type DesktopNavProps = {
 
 /** Main navigation with a scrollspy underline that slides between items (Motion layout animation). */
 export function DesktopNav({ links }: DesktopNavProps) {
+  const t = useTranslations("common");
   const active = useActiveSection(links.map((link) => link.href.replace("#", "")));
 
   return (
-    <nav aria-label="Main" className="hidden lg:block">
+    <nav aria-label={t("mainNav")} className="hidden lg:block">
       <ul className="flex items-center gap-8">
         {links.map((link) => {
           const isActive = active === link.href.replace("#", "");
@@ -23,6 +25,7 @@ export function DesktopNav({ links }: DesktopNavProps) {
             <li key={link.href} className="relative">
               <Link
                 href={link.href}
+                data-cursor="wrap"
                 aria-current={isActive ? "location" : undefined}
                 className={cn(
                   "text-body-1 transition-colors hover:text-ink",

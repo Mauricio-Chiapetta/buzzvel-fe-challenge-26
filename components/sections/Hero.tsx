@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useFormatter, useTranslations } from "next-intl";
 import { MaskBlock, MaskWords } from "@/components/motion/MaskText";
 import { ParallaxLayer } from "@/components/motion/ParallaxLayer";
 import { AvatarStack } from "@/components/ui/AvatarStack";
@@ -18,6 +19,9 @@ type HeroProps = {
 export function Hero({ content }: HeroProps) {
   const { eyebrow, title, description, primaryCta, secondaryCta, trust, image, coursesBadge, rating } =
     content;
+  const t = useTranslations("hero");
+  // Intl number formatting per locale: 24,000 / 24.000 and 4.9 / 4,9
+  const format = useFormatter();
 
   return (
     <section aria-labelledby="hero-title" className="overflow-x-clip bg-cream py-15 lg:py-25">
@@ -53,7 +57,10 @@ export function Hero({ content }: HeroProps) {
           <div style={delay(850)} className="flex items-center justify-center gap-3 pt-8 motion-safe:animate-fade-up sm:justify-start">
             <AvatarStack people={trust.people} />
             <p className="text-body-1 text-ink-secondary">
-              <strong className="font-bold text-ink">{trust.highlight}</strong> {trust.label}
+              {t.rich("trust", {
+                count: format.number(trust.count),
+                strong: (chunks) => <strong className="font-bold text-ink">{chunks}</strong>,
+              })}
             </p>
           </div>
         </div>
@@ -104,7 +111,7 @@ export function Hero({ content }: HeroProps) {
           >
             <StarRating value={rating.value} decorative />
             <span className="text-body-1 text-ink">
-              {rating.value} {rating.label}
+              {t("rating", { value: format.number(rating.value, { minimumFractionDigits: 1 }) })}
             </span>
           </div>
         </div>

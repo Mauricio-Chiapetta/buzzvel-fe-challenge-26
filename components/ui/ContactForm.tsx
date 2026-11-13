@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useId, useRef, useState, type FormEvent } from "react";
 import { buttonClasses } from "@/components/ui/Button";
 import type { ContactContent } from "@/data/contact";
@@ -19,6 +20,7 @@ const EMPTY: ContactValues = { name: "", email: "", message: "" };
 const fakeSubmit = () => new Promise<void>((resolve) => setTimeout(resolve, 800));
 
 export function ContactForm({ content, onSubmit = fakeSubmit }: ContactFormProps) {
+  const tErrors = useTranslations("contact.errors");
   const [values, setValues] = useState<ContactValues>(EMPTY);
   const [errors, setErrors] = useState<ContactErrors>({});
   const [submitted, setSubmitted] = useState(false);
@@ -120,7 +122,7 @@ export function ContactForm({ content, onSubmit = fakeSubmit }: ContactFormProps
               )}
               {error && (
                 <p id={errorId} className="text-body-1 text-danger">
-                  {error}
+                  {tErrors(error)}
                 </p>
               )}
             </div>

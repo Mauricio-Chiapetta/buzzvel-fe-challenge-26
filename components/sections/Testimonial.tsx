@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useFormatter, useTranslations } from "next-intl";
 import { CountUp } from "@/components/motion/CountUp";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
@@ -11,9 +12,17 @@ type TestimonialProps = {
 
 export function Testimonial({ content }: TestimonialProps) {
   const { quote, author, stats } = content;
+  const t = useTranslations("testimonial");
+  // Intl number formatting per locale: 24K / 24 mil, 92% / 92 %
+  const format = useFormatter();
+  const formatStat = (stat: TestimonialContent["stats"][number]) =>
+    format.number(stat.value, {
+      notation: stat.style === "compact" ? "compact" : "standard",
+      style: stat.style === "percent" ? "percent" : "decimal",
+    }) + (stat.suffix ?? "");
 
   return (
-    <section aria-label="What learners say" className="bg-white py-15 lg:py-25">
+    <section aria-label={t("label")} className="bg-white py-15 lg:py-25">
       <Container className="flex flex-col gap-15 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
         <figure className="flex max-w-150 flex-col">
           <Reveal variant="scale" className="self-start">
@@ -49,7 +58,7 @@ export function Testimonial({ content }: TestimonialProps) {
           {stats.map((stat) => (
             <RevealItem as="li" key={stat.label} className="flex flex-1 flex-col">
               <CountUp
-                value={stat.value}
+                value={formatStat(stat)}
                 className="font-display text-h1-mobile font-extrabold text-primary lg:text-h1"
               />
               <span className="pt-1 text-body-1 text-ink-tertiary">{stat.label}</span>

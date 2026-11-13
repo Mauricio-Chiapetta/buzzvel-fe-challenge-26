@@ -1,5 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
 
 type LogoProps = {
@@ -9,11 +10,12 @@ type LogoProps = {
 };
 
 export function Logo({ tone = "dark", className }: LogoProps) {
+  const t = useTranslations("common");
   return (
     <Link href="/" className={cn("inline-flex shrink-0", className)}>
       <Image
         src={tone === "dark" ? "/icons/logo.svg" : "/icons/logo-light.svg"}
-        alt="Luma — home"
+        alt={t("logoAlt")}
         width={54}
         height={17}
         unoptimized

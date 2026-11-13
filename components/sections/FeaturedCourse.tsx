@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { ClipReveal } from "@/components/motion/ClipReveal";
@@ -8,6 +10,8 @@ import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import type { FeaturedCourseContent } from "@/data/featuredCourse";
+import { useTranslations } from "next-intl";
+import { useCourseSelection } from "./CourseSelection";
 
 type FeaturedCourseProps = {
   content: FeaturedCourseContent;
@@ -17,21 +21,28 @@ type FeaturedCourseProps = {
  * Motion choreography (Awwwards-inspired): curtain clip-path image reveal → badge pops in →
  * eyebrow/title/paragraph/instructor through masks → tags spring in →
  * CTAs, with an underline-drawing secondary link.
+ *
+ * The course shown follows the category picked in the Categories section (author addition).
+ * Image and copy are keyed by category, so switching replays the curtain + mask reveals.
  */
 export function FeaturedCourse({ content }: FeaturedCourseProps) {
-  const { badge, eyebrow, title, description, instructor, tags, primaryCta, secondaryCta, image } =
-    content;
+  const t = useTranslations("featured");
+  const { selected } = useCourseSelection();
+  const { badge, primaryCta, secondaryCta } = content;
+  const course = content.courses[selected];
+  const { eyebrow, title, description, instructor, tags, image } = course;
 
   return (
     <section
       id="featured-course"
       aria-labelledby="featured-course-title"
+      data-cursor-theme="inverse"
       className="bg-primary py-15 text-white lg:py-25"
     >
       <Container className="flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-15">
         {/* Image with "Featured course" badge */}
         <div className="relative lg:flex-1">
-          <ClipReveal className="relative h-70 rounded-2xl md:h-96 lg:h-102">
+          <ClipReveal key={course.categoryId} className="relative h-70 rounded-2xl md:h-96 lg:h-102">
             {/* Small drift on purpose: a taller layer forces object-cover to zoom in and crop
                 the sides of the photo, losing the framing from the Figma design. */}
             <ParallaxLayer amount={14}>
@@ -57,43 +68,50 @@ export function FeaturedCourse({ content }: FeaturedCourseProps) {
 
         {/* Copy */}
         <div className="flex flex-col lg:flex-1">
-          <ScrollMaskBlock delay={0.1}>
-            <Eyebrow tone="inverse">{eyebrow}</Eyebrow>
-          </ScrollMaskBlock>
-          <h2
-            id="featured-course-title"
-            aria-label={title}
-            className="pt-4 font-display text-h3-mobile font-extrabold md:text-h3"
-          >
-            <ScrollMaskWords text={title} delay={0.2} />
-          </h2>
-          <ScrollMaskBlock delay={0.5} className="pt-5">
-            <p className="text-body-1 lg:text-subtitle-2">{description}</p>
-          </ScrollMaskBlock>
-          <ScrollMaskBlock delay={0.8} className="pt-6">
-            <p className="text-body-1 lg:text-subtitle-2">
-              with {instructor.name} · {instructor.role}
-            </p>
-          </ScrollMaskBlock>
+          {/* Announces the switch to screen readers (initial live-region content isn't read on load) */}
+          <p aria-live="polite" className="sr-only">
+            {t("announce", { title })}
+          </p>
+          {/* Course-specific copy — keyed so a new selection replays the reveals */}
+          <div key={course.categoryId} className="flex flex-col">
+            <ScrollMaskBlock delay={0.1}>
+              <Eyebrow tone="inverse">{eyebrow}</Eyebrow>
+            </ScrollMaskBlock>
+            <h2
+              id="featured-course-title"
+              aria-label={title}
+              className="pt-4 font-display text-h3-mobile font-extrabold md:text-h3"
+            >
+              <ScrollMaskWords text={title} delay={0.2} />
+            </h2>
+            <ScrollMaskBlock delay={0.5} className="pt-5">
+              <p className="text-body-1 lg:text-subtitle-2">{description}</p>
+            </ScrollMaskBlock>
+            <ScrollMaskBlock delay={0.8} className="pt-6">
+              <p className="text-body-1 lg:text-subtitle-2">
+                {t("instructor", { name: instructor.name, role: instructor.role })}
+              </p>
+            </ScrollMaskBlock>
 
-          <RevealGroup
-            as="ul"
-            stagger={0.08}
-            delay={0.9}
-            aria-label="Course details"
-            className="flex flex-wrap gap-3 pt-6"
-          >
-            {tags.map((tag) => (
-              <RevealItem
-                as="li"
-                variant="scale"
-                key={tag}
-                className="cursor-default rounded-lg border border-line px-3.5 py-1.5 text-body-1 transition-colors duration-300 hover:border-white hover:bg-white hover:text-primary"
-              >
-                {tag}
-              </RevealItem>
-            ))}
-          </RevealGroup>
+            <RevealGroup
+              as="ul"
+              stagger={0.08}
+              delay={0.9}
+              aria-label={t("details")}
+              className="flex flex-wrap gap-3 pt-6"
+            >
+              {tags.map((tag) => (
+                <RevealItem
+                  as="li"
+                  variant="scale"
+                  key={tag}
+                  className="cursor-default rounded-lg border border-line px-3.5 py-1.5 text-body-1 transition-colors duration-300 hover:border-white hover:bg-white hover:text-primary"
+                >
+                  {tag}
+                </RevealItem>
+              ))}
+            </RevealGroup>
+          </div>
 
           <Reveal delay={1.1} className="flex flex-col gap-3 pt-8 sm:flex-row sm:items-center">
             <ButtonLink
@@ -105,7 +123,8 @@ export function FeaturedCourse({ content }: FeaturedCourseProps) {
             </ButtonLink>
             <Link
               href={secondaryCta.href}
-              className="group flex items-center justify-center gap-2 px-4 py-3.5 text-body-1 font-bold text-white-secondary transition-colors hover:text-white focus-visible:outline-white"
+              data-cursor="wrap"
+              className="group flex rounded-lg items-center justify-center gap-2 px-4 py-3.5 text-body-1 font-bold text-white-secondary transition-colors hover:text-white focus-visible:outline-white"
             >
               {/* Underline draws from the left on hover */}
               <span className="relative after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-500 after:ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:after:scale-x-100">

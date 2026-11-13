@@ -2,6 +2,7 @@
 
 import { useLenis } from "lenis/react";
 import { AnimatePresence, m, type Variants } from "motion/react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
@@ -64,6 +65,7 @@ const ctaVariants: Variants = {
  * Esc closes and returns focus to the toggle.
  */
 export function MobileMenu({ links, login, signup }: MobileMenuProps) {
+  const t = useTranslations("common");
   const [open, setOpen] = useState(false);
   const panelId = useId();
   const toggleRef = useRef<HTMLButtonElement>(null);
@@ -118,7 +120,7 @@ export function MobileMenu({ links, login, signup }: MobileMenuProps) {
         className="-mr-1.5 flex p-1.5 text-ink"
         aria-expanded={open}
         aria-controls={panelId}
-        aria-label={open ? "Close menu" : "Open menu"}
+        aria-label={open ? t("closeMenu") : t("openMenu")}
         onClick={() => setOpen((value) => !value)}
       >
         <MenuIcon ref={iconRef} size={24} className="flex" />
@@ -156,7 +158,7 @@ export function MobileMenu({ links, login, signup }: MobileMenuProps) {
             exit="closed"
             className="absolute inset-x-0 top-full border-b border-line bg-cream shadow-float"
           >
-            <nav aria-label="Mobile" className="px-5 pt-2 pb-6">
+            <nav aria-label={t("mobileNav")} className="px-5 pt-2 pb-6">
               <ul className="flex flex-col">
                 {links.map((link) => (
                   <li key={link.href} className="relative">

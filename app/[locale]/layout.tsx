@@ -1,8 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { notFound } from "next/navigation";
+import { hasLocale, NextIntlClientProvider } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
-import "./globals.css";
+import { localeTags, routing } from "@/i18n/routing";
+import "../globals.css";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -21,45 +25,61 @@ const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
   ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
   : "http://localhost:3000";
 
-const description =
-  "Practical courses taught by people who do the work every day. Learn design, technology, business and more — one focused lesson at a time.";
+/** Both locales are prerendered at build time (static HTML for "/" and "/pt"). */
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: {
-    default: "Luma | Practical online courses",
-    template: "%s | Luma",
-  },
-  description,
-  applicationName: "Luma",
-  keywords: ["online courses", "product design", "technology", "business", "creative skills"],
-  alternates: { canonical: "/" },
-  openGraph: {
-    type: "website",
-    siteName: "Luma",
-    title: "Luma | Build skills that actually move you forward",
-    description,
-    url: "/",
-    locale: "en_US",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Luma | Build skills that actually move you forward",
-    description,
-  },
-};
+export async function generateMetadata({ params }: LayoutProps<"/[locale]">): Promise<Metadata> {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) return {};
+  const t = await getTranslations({ locale, namespace: "metadata" });
+  const path = locale === routing.defaultLocale ? "/" : `/${locale}`;
+
+  return {
+    metadataBase: new URL(siteUrl),
+    title: { default: t("title"), template: "%s | Luma" },
+    description: t("description"),
+    applicationName: "Luma",
+    keywords: ["online courses", "product design", "technology", "business", "creative skills"],
+    alternates: {
+      canonical: path,
+      // hreflang alternates so search engines can pair the two language versions
+      languages: { en: "/", "pt-BR": "/pt", "x-default": "/" },
+    },
+    openGraph: {
+      type: "website",
+      siteName: "Luma",
+      title: t("ogTitle"),
+      description: t("description"),
+      url: path,
+      locale: localeTags[locale].og,
+      alternateLocale: routing.locales.filter((l) => l !== locale).map((l) => localeTags[l].og),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t("ogTitle"),
+      description: t("description"),
+    },
+  };
+}
 
 export const viewport: Viewport = {
   themeColor: "#f9f8f3",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function LocaleLayout({ children, params }: LayoutProps<"/[locale]">) {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) notFound();
+
   return (
-    <html lang="en" className={`${inter.variable} ${jakarta.variable}`}>
+    <html lang={localeTags[locale].lang} className={`${inter.variable} ${jakarta.variable}`}>
       <body>
-        <SmoothScroll>
-          <MotionProvider>{children}</MotionProvider>
-        </SmoothScroll>
+        <NextIntlClientProvider>
+          <SmoothScroll>
+            <MotionProvider>{children}</MotionProvider>
+          </SmoothScroll>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

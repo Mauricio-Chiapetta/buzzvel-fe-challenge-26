@@ -5,8 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, type MouseEvent } from "react";
 import { animatedIcons, type AnimatedIconHandle, type AnimatedIconName } from "@/components/icons/animated";
+import { useCourseSelection } from "@/components/sections/CourseSelection";
+import type { CategoryId } from "@/data/featuredCourse";
+import { cn } from "@/lib/cn";
 
 type CategoryCardProps = {
+  id: CategoryId;
   index: number;
   icon: AnimatedIconName;
   title: string;
@@ -20,10 +24,15 @@ type CategoryCardProps = {
  * The lucide-animated icon next to the number plays once when the card scrolls in
  * (staggered per card), and again on hover or keyboard focus of the card.
  *
+ * Clicking selects the category: the Featured Course section switches to its course and the
+ * page scrolls there (href="#featured-course"). The selected card keeps a highlighted state.
+ *
  * Hover: soft lift, a spotlight that follows the cursor,
  * number/icon pills switch to the brand colour and the arrow slides.
  */
-export function CategoryCard({ index, icon, title, description, href, linkLabel }: CategoryCardProps) {
+export function CategoryCard({ id, index, icon, title, description, href, linkLabel }: CategoryCardProps) {
+  const { selected, select } = useCourseSelection();
+  const isSelected = selected === id;
   const number = String(index + 1).padStart(2, "0");
   const Icon = animatedIcons[icon];
   const iconRef = useRef<AnimatedIconHandle>(null);
@@ -58,14 +67,19 @@ export function CategoryCard({ index, icon, title, description, href, linkLabel 
       onMouseEnter={play}
       onMouseLeave={reset}
       onMouseMove={trackPointer}
+      onClick={() => select(id)}
+      aria-current={isSelected ? "true" : undefined}
+      data-selected={isSelected || undefined}
       onFocus={play}
       onBlur={reset}
-      className={[
+      className={cn(
         "group relative isolate flex min-h-50 w-full flex-col justify-between overflow-hidden rounded-2xl border border-line bg-white p-6 lg:min-h-65 lg:p-7",
         "transition-[translate,border-color] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
         "hover:border-primary/30 motion-safe:hover:-translate-y-1.5",
         "focus-visible:border-primary/30",
-      ].join(" ")}
+        // Selected category: persistent highlight (border + filled pills, see below)
+        "data-selected:border-primary/40",
+      )}
     >
       {/* Cursor spotlight (behind the content, above the card background) */}
       <span
@@ -78,13 +92,13 @@ export function CategoryCard({ index, icon, title, description, href, linkLabel 
       />
       <div>
         <div aria-hidden="true" className="flex h-[46.5px] items-start gap-2 pt-0.5">
-          <span className="inline-flex rounded-md bg-primary-light px-2 py-1 text-overline font-semibold text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-white group-focus-visible:bg-primary group-focus-visible:text-white">
+          <span className="inline-flex rounded-md bg-primary-light px-2 py-1 text-overline font-semibold text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-white group-focus-visible:bg-primary group-focus-visible:text-white group-data-selected:bg-primary group-data-selected:text-white">
             {number}
           </span>
           <Icon
             ref={iconRef}
             size={16}
-            className="flex size-6 items-center justify-center rounded-md bg-primary-light text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-white group-focus-visible:bg-primary group-focus-visible:text-white"
+            className="flex size-6 items-center justify-center rounded-md bg-primary-light text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-white group-focus-visible:bg-primary group-focus-visible:text-white group-data-selected:bg-primary group-data-selected:text-white"
           />
         </div>
         <h3 className="font-display text-h5-mobile font-bold lg:text-h5">{title}</h3>

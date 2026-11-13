@@ -1,6 +1,7 @@
 "use client";
 
 import { m, type Variants } from "motion/react";
+import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import { EASE_OUT_EXPO, revealViewport } from "@/components/motion/Reveal";
 import { StepIcon } from "@/components/ui/StepIcon";
@@ -21,6 +22,7 @@ type HowItWorksStepsProps = {
  * followed by its texts through masks. Mobile (stacked): each step animates as it enters the screen.
  */
 export function HowItWorksSteps({ steps }: HowItWorksStepsProps) {
+  const t = useTranslations("howItWorks");
   const isDesktop = useMediaQuery("(min-width: 1024px)");
 
   return (
@@ -67,7 +69,7 @@ export function HowItWorksSteps({ steps }: HowItWorksStepsProps) {
 
             <MaskLine delay={base + 0.35} className="pt-6">
               <p className="text-overline font-semibold text-ink-tertiary uppercase">
-                Step {String(index + 1).padStart(2, "0")}
+                {t("step", { number: String(index + 1).padStart(2, "0") })}
               </p>
             </MaskLine>
             <MaskLine delay={base + 0.45} className="pt-2">

@@ -147,6 +147,13 @@
   /* Smooth scrolling is handled by Lenis (components/motion/SmoothScroll.tsx) —
      a CSS scroll-behavior here would fight with it. */
 
+  /* Tailwind v4 preflight resets buttons to the default cursor — restore the pointer
+     for every clickable button (language picker, back to top, menu toggle, form submit…). */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
+
   /* Sections receive programmatic focus after anchor navigation; no ring for that. */
   [tabindex="-1"]:focus {
     outline: none;
