@@ -8,6 +8,7 @@ import { EASE_OUT_EXPO } from "@/components/motion/Reveal";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { localeTags, routing, type Locale } from "@/i18n/routing";
 import { cn } from "@/lib/cn";
+import { SKIP_INTRO_KEY } from "@/lib/intro";
 
 /**
  * Language picker (next-intl): an icon-only button (lucide-animated "languages") that opens a
@@ -50,6 +51,10 @@ export function LocaleSwitcher({ className }: { className?: string }) {
     setOpen(false);
     buttonRef.current?.focus();
     if (next === locale) return;
+    // Don't replay the intro curtain when the language switch reloads the page.
+    try {
+      sessionStorage.setItem(SKIP_INTRO_KEY, "1");
+    } catch {}
     startTransition(() => {
       router.replace(pathname, { locale: next, scroll: false });
     });

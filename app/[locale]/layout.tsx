@@ -6,6 +6,7 @@ import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { localeTags, routing } from "@/i18n/routing";
 import { fontVariables } from "@/lib/fonts";
+import { introNoScriptCss, introScript } from "@/lib/intro";
 import { siteUrl } from "@/lib/site";
 import "../globals.css";
 
@@ -61,6 +62,11 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   return (
     <html lang={localeTags[locale].lang} className={fontVariables}>
       <body>
+        {/* Intro curtain helpers (lib/intro.ts): skip it after a language switch / without JS */}
+        <script dangerouslySetInnerHTML={{ __html: introScript }} />
+        <noscript>
+          <style>{introNoScriptCss}</style>
+        </noscript>
         <NextIntlClientProvider>
           <SmoothScroll>
             <MotionProvider>{children}</MotionProvider>

@@ -24,7 +24,7 @@ export function Hero({ content }: HeroProps) {
   const format = useFormatter();
 
   return (
-    <section aria-labelledby="hero-title" className="overflow-x-clip bg-cream py-15 lg:py-25">
+    <section aria-labelledby="hero-title" data-intro-wait className="overflow-x-clip bg-cream py-15 lg:py-25">
       <Container className="flex flex-col gap-10 lg:flex-row lg:items-start xl:gap-15">
         {/* Copy */}
         <div className="flex flex-1 flex-col">

@@ -2,6 +2,7 @@ import { ConsoleGreeting } from "@/components/layout/ConsoleGreeting";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { CustomCursor } from "@/components/motion/CustomCursor";
+import { IntroProvider } from "@/components/motion/Intro";
 import { ProgressiveBlur } from "@/components/motion/ProgressiveBlur";
 import { Categories } from "@/components/sections/Categories";
 import { CourseSelectionProvider } from "@/components/sections/CourseSelection";
@@ -35,7 +36,8 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
   const course = featuredCourse[locale];
 
   return (
-    <>
+    // Intro curtain on first load; it holds the Hero entrance until it leaves.
+    <IntroProvider>
       <a
         href="#main"
         className="sr-only z-60 rounded-lg bg-primary px-4 py-2 text-body-1 font-bold text-white focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
@@ -60,6 +62,6 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
       <ProgressiveBlur />
       <CustomCursor />
       <ConsoleGreeting />
-    </>
+    </IntroProvider>
   );
 }

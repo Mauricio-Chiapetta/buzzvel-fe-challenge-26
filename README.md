@@ -99,7 +99,7 @@ __tests__/             tests
 - **Reduced motion:**
   - every Motion animation honours `prefers-reduced-motion` (`MotionConfig reducedMotion="user"`);
   - CSS animations use `motion-safe:`, plus a global CSS safety net;
-  - parallax, counters, the custom cursor and smooth scrolling are disabled.
+  - parallax, counters, the custom cursor, smooth scrolling and the intro curtain are disabled.
 - Error colour `#c62828` was added (not in Figma) to meet WCAG AA on white.
 - **Contrast fixes.** Three Figma colour pairs measured just under the WCAG AA minimum of 4.5:1, so each text uses the neighbouring token instead (visually almost identical):
   - `#6d7384` on cream: 4.45:1, now `#656770` (5.3:1), in the How It Works step labels and the contact card values;
@@ -110,7 +110,8 @@ __tests__/             tests
 - **Hero (LCP):**
   - the entrance is pure CSS (no JS needed before it plays);
   - the headline animates only `transform`;
-  - the hero image is the only one loaded eagerly, with `fetchPriority="high"`.
+  - the hero image is the only one loaded eagerly, with `fetchPriority="high"`;
+  - the intro curtain never blocks loading: the page renders normally underneath, and the Hero's CSS entrance is only paused (not delayed) until the curtain leaves.
 - **Images:** every `next/image` has `sizes`, so the browser gets AVIF/WebP at the right width.
 - **Fonts:** Inter and Plus Jakarta Sans via `next/font` (variable fonts, Latin subset, `display: swap`, self-hosted).
 - **Motion:**
@@ -153,6 +154,11 @@ These differ from the Figma **on purpose**. They are not fidelity misses.
    - it turns yellow on blue and dark sections;
    - it is disabled for users who prefer reduced motion.
 6. **English / Portuguese**, as described above.
+7. **Intro curtain.** On page load, a brand-blue panel shows "luma." with the letters rising through masks. It then slides up with a curved bottom edge, trailed by a yellow layer, while the Hero entrance starts underneath.
+   - It is decorative (hidden from assistive tech) and never blocks clicks.
+   - It is part of the server HTML, so it covers the page from the first paint. While it is on screen, the Hero's CSS entrance is paused (not delayed), so it starts from its first frame as the curtain leaves.
+   - It is skipped for users who prefer reduced motion, right after a language switch (a tiny inline script hides it before the first paint), and without JavaScript (`<noscript>` styles).
+   - If the app ever fails to start, the inline script releases the page after 6 seconds.
 
 Small additions that don't change the design: a back-to-top button in the footer, a branded 404 page, and a greeting in the browser console for whoever opens DevTools.
 

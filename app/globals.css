@@ -127,6 +127,21 @@
   }
 }
 
+/* Intro curtain (components/motion/Intro.tsx). While the wrapper says "playing", the Hero's CSS
+   entrance is paused (not delayed), so it starts from its first frame as the curtain leaves.
+   No curtain and no pause for users who prefer reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-intro="playing"] [data-intro-wait] *,
+  [data-intro="playing"] [data-intro-wait] *::after {
+    animation-play-state: paused !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-intro-overlay] {
+    display: none;
+  }
+}
+
 /* Safety net: honour reduced-motion for every animation/transition in the app. */
 @media (prefers-reduced-motion: reduce) {
   *,
