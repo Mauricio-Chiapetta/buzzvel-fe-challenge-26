@@ -123,7 +123,7 @@ export function FeaturedCourse({ content }: FeaturedCourseProps) {
             </ButtonLink>
             <Link
               href={secondaryCta.href}
-              className="group flex rounded-lg items-center justify-center gap-2 px-4 py-3.5 text-body-1 font-bold text-white-secondary transition-colors hover:text-white focus-visible:outline-white"
+              className="group flex rounded-lg items-center justify-center gap-2 px-4 py-3.5 text-body-1 font-bold text-white transition-colors focus-visible:outline-white"
             >
               {/* Underline draws from the left on hover */}
               <span className="relative after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-500 after:ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:after:scale-x-100">

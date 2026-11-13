@@ -4,6 +4,15 @@ import { afterEach, vi } from "vitest";
 
 afterEach(() => cleanup());
 
+// No App Router is mounted in unit tests: stub the hooks used by next-intl's navigation helpers.
+vi.mock("next/navigation", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("next/navigation")>()),
+  useRouter: () => ({ push: vi.fn(), replace: vi.fn(), prefetch: vi.fn(), back: vi.fn(), forward: vi.fn(), refresh: vi.fn() }),
+  usePathname: () => "/",
+  useSearchParams: () => new URLSearchParams(),
+  useParams: () => ({}),
+}));
+
 // jsdom lacks the browser APIs used by Motion (in-view / reduced motion) and our media queries.
 if (!window.matchMedia) {
   Object.defineProperty(window, "matchMedia", {

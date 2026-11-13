@@ -8,8 +8,13 @@ A responsive landing page for **Luma**, a fictional online-courses platform, bui
 
 > **Note for reviewers:** the site opens in **English**, exactly as designed. The browser language does **not** redirect you. A Portuguese version is available from the language button in the header (or at `/pt`).
 
-![Lighthouse](docs/lighthouse.png)
-_TODO: Lighthouse screenshot (mobile + desktop)._
+### Lighthouse (production, Vercel)
+
+| Desktop | Mobile |
+|---|---|
+| ![Lighthouse desktop: Performance 100, Accessibility 96, Best Practices 100, SEO 100](docs/lighthouse-desktop.png) | ![Lighthouse mobile: Performance 99, Accessibility 96, Best Practices 100, SEO 100](docs/lighthouse-mobile.png) |
+
+The screenshots above (Accessibility 96) were taken before the contrast fix described under [Accessibility](#accessibility).
 
 ---
 
@@ -29,7 +34,7 @@ npm run dev        # http://localhost:3000 (English) and http://localhost:3000/p
 | `npm start` | Serves the production build |
 | `npm run lint` | ESLint (Next.js config) |
 | `npm run typecheck` | `tsc --noEmit` (strict mode) |
-| `npm test` | Unit and component tests (Vitest + React Testing Library) |
+| `npm test` | Unit, component and accessibility tests (Vitest + React Testing Library + axe-core) |
 | `npm run test:watch` | Tests in watch mode |
 
 ---
@@ -45,7 +50,7 @@ npm run dev        # http://localhost:3000 (English) and http://localhost:3000/p
 | Smooth scroll | [Lenis](https://lenis.darkroom.engineering) |
 | i18n | [next-intl](https://next-intl.dev) |
 | Icons | [lucide-animated](https://lucide-animated.com) (MIT), adapted to the project's Motion setup |
-| Tests | Vitest, React Testing Library, user-event, jest-dom |
+| Tests | Vitest, React Testing Library, user-event, jest-dom, axe-core |
 
 ## Project structure
 
@@ -96,6 +101,9 @@ __tests__/             tests
   - CSS animations use `motion-safe:`, plus a global CSS safety net;
   - parallax, counters, the custom cursor and smooth scrolling are disabled.
 - Error colour `#c62828` was added (not in Figma) to meet WCAG AA on white.
+- **Contrast fixes.** Three Figma colour pairs measured just under the WCAG AA minimum of 4.5:1, so each text uses the neighbouring token instead (visually almost identical):
+  - `#6d7384` on cream: 4.45:1, now `#656770` (5.3:1), in the How It Works step labels and the contact card values;
+  - `#e7e7ec` on the blue section: 4.46:1, now white (5.5:1), in "Browse all courses".
 
 ## Performance
 
@@ -172,7 +180,7 @@ Small additions that don't change the design: a back-to-top button in the footer
 
 ## Tests
 
-`npm test` runs 32 tests (Vitest + React Testing Library) covering behaviour, not markup:
+`npm test` runs 34 tests (Vitest + React Testing Library) covering behaviour, not markup:
 
 - **`validateContact`:** required fields, minimum lengths after trimming, invalid emails.
 - **`ContactForm`:**
@@ -190,18 +198,24 @@ Small additions that don't change the design: a back-to-top button in the footer
 - **Categories → Featured Course:** clicking a card switches the course, the selected state and the live announcement, in both languages.
 - **`Button`:** variants, sizes and the cursor wrap target.
 - **i18n parity:** EN and PT have the same message keys, categories, courses and form fields.
+- **Accessibility:** the whole page (every section, in both languages) is checked with axe-core against WCAG 2.1 A/AA and best-practice rules. Colour contrast is excluded there, because jsdom has no rendering; it is covered by Lighthouse.
 
 Components render with the same providers as the app (next-intl + strict `LazyMotion`), with animations turned off.
 
 ## Known gaps
 
-- **No end-to-end tests.** There are no E2E or automated accessibility (axe) tests yet. Interactions are covered at the component level, and accessibility was checked manually.
+- **No end-to-end tests.** Interactions and accessibility are tested at the component level (jsdom). There are no browser E2E tests.
 - **Mock content.** The three extra featured courses reuse photos from the People section.
 - **Experimental flag.** `global-not-found` relies on Next 16's experimental `globalNotFound` flag. It only serves URLs that never reach the locale layout; the localized 404 covers the rest.
 
 ## Time spent
 
-_TODO: approximate hours._
+About **16–20 hours**:
+- building the sections and responsive layouts from the Figma;
+- animations and their iterations;
+- i18n;
+- tests;
+- this README.
 
 ## Use of AI
 

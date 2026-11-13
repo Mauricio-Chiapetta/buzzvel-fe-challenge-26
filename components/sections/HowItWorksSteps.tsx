@@ -68,7 +68,7 @@ export function HowItWorksSteps({ steps }: HowItWorksStepsProps) {
             <StepIcon name={step.icon} delay={base} />
 
             <MaskLine delay={base + 0.35} className="pt-6">
-              <p className="text-overline font-semibold text-ink-tertiary uppercase">
+              <p className="text-overline font-semibold text-ink-secondary uppercase">
                 {t("step", { number: String(index + 1).padStart(2, "0") })}
               </p>
             </MaskLine>

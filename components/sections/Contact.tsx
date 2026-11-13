@@ -48,7 +48,7 @@ export function Contact({ content }: ContactProps) {
                         {item.value}
                       </a>
                     ) : (
-                      <span className="text-ink-tertiary">{item.value}</span>
+                      <span className="text-ink-secondary">{item.value}</span>
                     )}
                   </span>
                 </RevealItem>
