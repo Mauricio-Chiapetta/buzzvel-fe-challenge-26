@@ -86,13 +86,13 @@ Ordem (ver mapa na seção 4):
 - [x] 1.1 Header / Navbar (+ menu mobile)
 - [x] 1.2 Hero
 - [x] 1.3 Categories
-- [ ] 1.4 FeaturedCourse
-- [ ] 1.5 HowItWorks
-- [ ] 1.6 Testimonial + stats
-- [ ] 1.7 People (colagem de fotos)
-- [ ] 1.8 Contact (formulário com validação)
-- [ ] 1.9 FinalCTA
-- [ ] 1.10 Footer
+- [x] 1.4 FeaturedCourse
+- [x] 1.5 HowItWorks
+- [x] 1.6 Testimonial + stats
+- [x] 1.7 People (colagem de fotos)
+- [x] 1.8 Contact (formulário com validação)
+- [x] 1.9 FinalCTA
+- [x] 1.10 Footer
 
 ### Etapa 2 — Polimento e responsividade
 - [ ] Varredura em 320 / 375 / 768 / 1024 / 1280 / 1440 / 1920.
@@ -143,13 +143,13 @@ Marca fictícia: **luma.** (plataforma de cursos online).
 | 1 | Header | `15:116` | `2:4199` | Logo, nav (Courses, For Teams, Community, About), Log in, Start learning. Mobile: menu hambúrguer | sim (toggle) | ✅ |
 | 2 | Hero | `2:38` | `2:4208` | Eyebrow, H1, texto, 2 CTAs, avatares "Trusted by 24,000+", imagem com cards flutuantes (120+ courses, 4.9 rating) | não | ✅ |
 | 3 | Categories | `2:100` | `2:4269` | 4 cards numerados (Product Design, Technology, Business, Creative) com link "Explore →" | não | ✅ |
-| 4 | FeaturedCourse | `2:193` | `2:4361` | Fundo azul, imagem com badge, título, instrutor, tags (8 lessons, 2h 40min, Intermediate), botão amarelo + link | não | ⬜ |
-| 5 | HowItWorks | `2:238` | `2:4405` | 3 passos com ícones ligados por linha (horizontal no desktop, vertical no mobile) | não | ⬜ |
-| 6 | Testimonial | `2:305` | `2:4471` | Citação + autor + 3 estatísticas (24K+, 120+, 92%) | não | ⬜ |
-| 7 | People ("Section") | `4:1136` | `4:1234` | Texto + botão, colagem de fotos sobre círculo | não | ⬜ |
-| 8 | Contact | `19:77` | `21:52` | Info (email, tempo de resposta) + formulário (nome, email, dúvida) | sim (form) | ⬜ |
-| 9 | FinalCTA | `2:352` | `2:4517` | Fundo amarelo com formas decorativas, avatares, título, 2 CTAs | não | ⬜ |
-| 10 | Footer | `2:384` | `2:4544` | Logo branco, tagline, 3 colunas de links (Explore, Company, Support), copyright | não | ⬜ |
+| 4 | FeaturedCourse | `2:193` | `2:4361` | Fundo azul, imagem com badge, título, instrutor, tags (8 lessons, 2h 40min, Intermediate), botão amarelo + link | não | ✅ |
+| 5 | HowItWorks | `2:238` | `2:4405` | 3 passos com ícones ligados por linha (horizontal no desktop, vertical no mobile) | não | ✅ |
+| 6 | Testimonial | `2:305` | `2:4471` | Citação + autor + 3 estatísticas (24K+, 120+, 92%) | não | ✅ |
+| 7 | People ("Section") | `4:1136` | `4:1234` | Texto + botão, colagem de fotos sobre círculo | não | ✅ |
+| 8 | Contact | `19:77` | `21:52` | Info (email, tempo de resposta) + formulário (nome, email, dúvida) | sim (form) | ✅ |
+| 9 | FinalCTA | `2:352` | `2:4517` | Fundo amarelo com formas decorativas, avatares, título, 2 CTAs | não | ✅ |
+| 10 | Footer | `2:384` | `2:4544` | Logo branco, tagline, 3 colunas de links (Explore, Company, Support), copyright | não | ✅ |
 
 ### Tokens do Figma
 - **Cores:** text-primary `#171b2c`, text-secondary `#656770`, text-tertiary `#6d7384`, primary-blue `#3157f6`, primary-blue-light `#e2e8ff`, primary-orange `#ff704d`, background-orange `#ffcb9f`, secondary-yellow `#ffee7e`, background-yellow `#fff1c2`, background-light-yellow `#f9f8f3`, background-darkblue `#171b2c`, line-1 `#dbdfeb`, text-white-primary `#fff`, text-white-secondary `#e7e7ec`, text-white-tertiary `#9e9faa`.
@@ -165,8 +165,28 @@ Marca fictícia: **luma.** (plataforma de cursos online).
 - **Sem frame de tablet:** o layout entre 402px e 1280px foi decisão nossa (empilhado até `lg`, com ajustes intermediários).
 - **Assets do Figma:** algumas imagens vêm como JPEG com extensão `.png`; renomeamos para a extensão real (`.jpg`).
 - **Identidade da página:** favicon/ícones criados a partir da marca "l." do logo (não existe no Figma); imagem Open Graph gerada no build com `next/og`.
+- **CTAs do Featured Course:** não existe página de curso; "View course" leva ao formulário de contato (inscrição) e "Browse all courses" às categorias.
+- **Foco em fundo azul:** o anel de foco padrão é azul; na seção azul os links usam anel branco para manter a visibilidade.
+- **People (tablet/desktop):** a colagem (520px) só cabe ao lado do texto a partir de 1280px; entre 768 e 1279 o texto fica acima e a colagem centralizada. Em telas < 402px a colagem é reduzida com `scale` para não transbordar.
+- **Final CTA:** as formas decorativas aparecem só a partir de 1280px (o frame mobile não tem e, em 1024px, o cubo encostaria no título). As da metade direita são ancoradas pela direita para acompanharem telas largas.
+- **Formulário de contato:** validação no client (nome ≥ 2, e-mail válido, mensagem ≥ 10 caracteres), erros ligados aos campos via `aria-describedby`, foco no primeiro campo inválido e envio simulado (800ms) com mensagem de sucesso em `role="status"`. Cor de erro `#c62828` (não existe no Figma; escolhida por contraste AA).
+- **Texto do How It Works:** o mobile diz "who actually use these skills" e o desktop "who use these skills"; usamos o texto do desktop.
+- **Links do footer** sem página correspondente (Careers, Journal, Terms, Privacy) usam `#` como placeholder.
+- **How It Works no tablet:** os 3 passos ficam empilhados (como no mobile) até 1024px; em 768px três colunas ficariam apertadas.
 - **Header sticky:** o design não define; deixamos o header fixo no topo (sticky) para facilitar a navegação.
 - **Links e formulário:** os links de navegação apontam para âncoras das seções. O formulário valida no client e simula o envio (sem backend, como o desafio permite).
+
+## 5.1 Mudanças intencionais no design (decisão do autor — ⚠️ OBRIGATÓRIO no README)
+
+Alterações feitas **de propósito** em relação ao Figma original da Buzzvel. Também foram aplicadas na cópia do Figma (`uD31QWrjqQzwTKqILFo53r`). Devem aparecer numa seção própria do README (ex.: *"Intentional design changes"*), para o avaliador não confundir com falta de fidelidade.
+
+| # | Seção | Original (Figma Buzzvel) | Alteração | Motivo |
+|---|---|---|---|---|
+| 1 | Hero (mobile/tablet) | Imagem com os cards flutuantes **acima** do título e dos textos | Imagem movida para **abaixo** dos textos e CTAs | O título (H1) e os botões aparecem logo no primeiro scroll, a mensagem principal vem antes da ilustração e a ordem visual passa a seguir a ordem do HTML (melhor para leitores de tela). |
+
+Rascunho para o README (inglês):
+> **Intentional design changes**
+> - **Hero on mobile:** the original design places the image above the headline. I moved it below the copy and CTAs so the main message and the primary actions are visible in the first viewport, and so the visual order matches the DOM/reading order.
 
 ## 6. Cronograma sugerido
 | Dia | Foco |

@@ -47,8 +47,8 @@ export function Hero({ content }: HeroProps) {
           </div>
         </div>
 
-        {/* Visual — shown first on mobile, right column on desktop */}
-        <div className="relative order-first mx-auto h-95 w-full max-w-90.5 shrink-0 md:h-130 md:max-w-125 lg:order-0 lg:mx-0 lg:w-125">
+        {/* Visual — below the copy on mobile/tablet (design change by the author), right column on desktop */}
+        <div className="relative mx-auto h-95 w-full max-w-90.5 shrink-0 md:h-130 md:max-w-125 lg:mx-0 lg:w-125">
           <div
             aria-hidden="true"
             className="absolute top-6 -right-2.5 bottom-3.5 w-[271.5px] rounded-2xl bg-orange-light md:-right-9.75 md:bottom-7 md:w-22.25"
@@ -78,7 +78,7 @@ export function Hero({ content }: HeroProps) {
           </div>
 
           <div className="absolute -right-2.75 bottom-[35.5px] flex items-center gap-2 rounded-xl bg-white px-4 py-3 shadow-float md:-right-14.25 lg:-right-6 xl:-right-14.25">
-            <StarRating value={rating.value} />
+            <StarRating value={rating.value} decorative />
             <span className="text-body-1 text-ink">
               {rating.value} {rating.label}
             </span>

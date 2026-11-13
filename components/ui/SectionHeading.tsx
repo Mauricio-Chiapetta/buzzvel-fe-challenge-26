@@ -9,6 +9,8 @@ type SectionHeadingProps = {
   title: ReactNode;
   description?: ReactNode;
   align?: "left" | "center";
+  /** Mobile size of the lead paragraph: `md` = 16/26 (default), `sm` = 14/24. Desktop is always 18/28. */
+  descriptionSize?: "md" | "sm";
   className?: string;
 };
 
@@ -19,13 +21,14 @@ export function SectionHeading({
   title,
   description,
   align = "left",
+  descriptionSize = "md",
   className,
 }: SectionHeadingProps) {
   return (
     <div
       className={cn(
-        "flex max-w-140 flex-col",
-        align === "center" && "mx-auto items-center text-center",
+        "flex flex-col",
+        align === "center" ? "mx-auto items-center text-center" : "max-w-140",
         className,
       )}
     >
@@ -34,7 +37,12 @@ export function SectionHeading({
         {title}
       </h2>
       {description && (
-        <p className="pt-4 text-subtitle-1-mobile text-ink-secondary md:text-subtitle-1">
+        <p
+          className={cn(
+            "pt-4 text-ink-secondary md:text-subtitle-1",
+            descriptionSize === "md" ? "text-subtitle-1-mobile" : "text-body-1",
+          )}
+        >
           {description}
         </p>
       )}

@@ -1,0 +1,23 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="Icon">
+<path id="Vector" d="M20 38V10M28 10H42.8C43.4628 10 44 10.5373 44 11.2V36.8C44 37.4628 43.4628 38 42.8 38H28V10ZM28 10V38V10ZM28 10H20H28ZM28 38H20H28ZM20 38H5.2C4.53726 38 4 37.4628 4 36.8V11.2C4 10.5373 4.53726 10 5.2 10H20V38Z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="#FFCB9F"/>
+<g id="Vector_2">
+<use xlink:href="#stroke0_0_28" fill="#FFCB9F"/>
+<mask id="stroke1_0_28" fill="white">
+<use xlink:href="#stroke0_0_28"/>
+</mask>
+<path d="M14 19.6973C14 18.8691 13.1736 18.3005 12.5012 18.784C10.9865 19.8731 10 21.6508 10 23.6588C10 25.6668 10.9865 27.4446 12.5012 28.5336C13.1736 29.017 14 28.4486 14 27.6204C14 25.1124 14 22.7536 14 19.6973Z" stroke-width="2" stroke="#FFCB9F" mask="url(#stroke1_0_28)"/>
+</g>
+<g id="Vector_3">
+<use xlink:href="#stroke2_0_28" fill="#FFCB9F"/>
+<mask id="stroke3_0_28" fill="white">
+<use xlink:href="#stroke2_0_28"/>
+</mask>
+<path d="M34 19.6973C34 18.8691 34.8264 18.3005 35.4988 18.784C37.0136 19.8731 38 21.6508 38 23.6588C38 25.6668 37.0136 27.4446 35.4988 28.5336C34.8264 29.017 34 28.4486 34 27.6204C34 25.1124 34 22.7536 34 19.6973Z" stroke-width="2" stroke="#FFCB9F" mask="url(#stroke3_0_28)"/>
+</g>
+</g>
+<defs>
+<path id="stroke0_0_28" d="M14 19.6973C14 18.8691 13.1736 18.3005 12.5012 18.784C10.9865 19.8731 10 21.6508 10 23.6588C10 25.6668 10.9865 27.4446 12.5012 28.5336C13.1736 29.017 14 28.4486 14 27.6204C14 25.1124 14 22.7536 14 19.6973Z"/>
+<path id="stroke2_0_28" d="M34 19.6973C34 18.8691 34.8264 18.3005 35.4988 18.784C37.0136 19.8731 38 21.6508 38 23.6588C38 25.6668 37.0136 27.4446 35.4988 28.5336C34.8264 29.017 34 28.4486 34 27.6204C34 25.1124 34 22.7536 34 19.6973Z"/>
+</defs>
+</svg>
