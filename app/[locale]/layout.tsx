@@ -1,29 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { localeTags, routing } from "@/i18n/routing";
+import { fontVariables } from "@/lib/fonts";
+import { siteUrl } from "@/lib/site";
 import "../globals.css";
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const jakarta = Plus_Jakarta_Sans({
-  variable: "--font-jakarta",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-/** Absolute base for OG/canonical URLs — Vercel's production URL when deployed, localhost otherwise. */
-const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
-  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : "http://localhost:3000";
 
 /** Both locales are prerendered at build time (static HTML for "/" and "/pt"). */
 export function generateStaticParams() {
@@ -37,7 +21,7 @@ export async function generateMetadata({ params }: LayoutProps<"/[locale]">): Pr
   const path = locale === routing.defaultLocale ? "/" : `/${locale}`;
 
   return {
-    metadataBase: new URL(siteUrl),
+    metadataBase: siteUrl,
     title: { default: t("title"), template: "%s | Luma" },
     description: t("description"),
     applicationName: "Luma",
@@ -73,7 +57,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   if (!hasLocale(routing.locales, locale)) notFound();
 
   return (
-    <html lang={localeTags[locale].lang} className={`${inter.variable} ${jakarta.variable}`}>
+    <html lang={localeTags[locale].lang} className={fontVariables}>
       <body>
         <NextIntlClientProvider>
           <SmoothScroll>

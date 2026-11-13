@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
   /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
+  experimental: {
+    // Branded 404 for URLs outside the [locale] root layout (app/global-not-found.tsx).
+    globalNotFound: true,
+  },
   turbopack: {
     rules: {
       "*.css": {

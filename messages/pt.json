@@ -41,5 +41,12 @@
   "footer": {
     "copyright": "© {year} Luma Learning",
     "backToTop": "Voltar ao topo"
+  },
+  "notFound": {
+    "title": "Página não encontrada",
+    "eyebrow": "Erro 404",
+    "heading": "Esta página seguiu outro curso.",
+    "description": "O link pode estar quebrado ou a página mudou de lugar. Volte para o início e continue aprendendo.",
+    "backHome": "Voltar ao início"
   }
 }

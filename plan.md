@@ -70,8 +70,8 @@ tests/ ou __tests__/  # testes
 - [x] Configurar `globals.css` com `@theme` (tokens) e fontes via `next/font` no `layout.tsx`.
 - [x] Metadata base: `title`, `description`, `openGraph`, `viewport`, favicon, `lang`.
 - [x] Criar primitivos de UI (`Container`, `Button`, `SectionHeading`...).
-- [ ] Exportar assets do Figma para `public/images`.
-- [ ] Setup de Prettier (opcional) e scripts `lint`, `typecheck`, `test`.
+- [x] Exportar assets do Figma para `public/images`.
+- [x] Scripts `lint`, `typecheck`, `test` e `test:watch` (Prettier dispensado).
 
 ### Etapa 1 — Construção das seções (uma por vez)
 Para **cada** seção, o mesmo ciclo:
@@ -98,7 +98,7 @@ Ordem (ver mapa na seção 4):
 ### Etapa 2 — Polimento e responsividade
 - [ ] Varredura em 320 / 375 / 768 / 1024 / 1280 / 1440 / 1920.
 - [ ] Navegação completa só pelo teclado (Tab, Shift+Tab, Enter, Esc em menus/modais).
-- [ ] Skip link "Skip to content".
+- [x] Skip link "Skip to content".
 - [ ] Estados de hover/focus/active consistentes com o design.
 
 ### Etapa 3 — Animações (sua parte criativa)
@@ -120,16 +120,16 @@ Ordem (ver mapa na seção 4):
 
 ### Etapa 4 — Testes
 Básicos mas significativos:
-- [ ] **Vitest + RTL**: primitivos (`Button` variantes/aria), componentes interativos (menu mobile abre/fecha, `aria-expanded`, Esc fecha; carrossel/tabs/accordion trocam estado), seções renderizam dados mockados.
+- [x] **Vitest + RTL** (32 testes em `__tests__/`: validação, Button, ContactForm, MobileMenu, LocaleSwitcher, Categories → Featured Course, paridade EN/PT): primitivos (`Button` variantes/aria), componentes interativos (menu mobile abre/fecha, `aria-expanded`, Esc fecha; carrossel/tabs/accordion trocam estado), seções renderizam dados mockados.
 - [ ] **Playwright (se der tempo)**: smoke test da página em viewport mobile e desktop + `@axe-core/playwright` sem violações críticas.
-- [ ] Script `npm test` documentado no README.
+- [x] Script `npm test` documentado no README.
 
 ### Etapa 5 — Performance e qualidade
-- [ ] `npm run build` sem erros/warnings; `npm run lint` e `tsc --noEmit` limpos.
-- [ ] Imagens: tamanhos corretos (`sizes`), `priority`/preload só na imagem do Hero, formatos modernos.
-- [ ] Fontes: só os pesos usados.
+- [x] `npm run build` sem erros; `npm run lint` e `tsc --noEmit` limpos. Único aviso: `metadataBase` do `app/opengraph-image.tsx` (resolvido antes do layout `[locale]`); o Next só emite esse aviso fora da Vercel (sem a env `VERCEL`).
+- [x] Imagens: `sizes` em todas, `loading="eager"` + `fetchPriority="high"` só no Hero, AVIF/WebP via `next/image`.
+- [x] Fontes: Inter e Plus Jakarta Sans são fontes variáveis (um arquivo por família, subset latin), módulo compartilhado em `lib/fonts.ts`.
 - [ ] Lighthouse (mobile e desktop) — meta ≥ 90 em todas as categorias; salvar screenshot.
-- [ ] Verificar que componentes client são mínimos.
+- [x] Verificar que componentes client são mínimos (seções estáticas são Server Components; client só onde há estado/animação).
 
 ### Etapa 6 — Entrega
 - [ ] Deploy na Vercel (live preview).
@@ -187,6 +187,8 @@ Marca fictícia: **luma.** (plataforma de cursos online).
 - **Links do footer** sem página correspondente (Careers, Journal, Terms, Privacy) usam `#` como placeholder.
 - **How It Works no tablet:** os 3 passos ficam empilhados (como no mobile) até 1024px; em 768px três colunas ficariam apertadas.
 - **Header sticky:** o design não define; deixamos o header fixo no topo (sticky) para facilitar a navegação.
+- **Página 404:** não existe no design. Criamos uma 404 com a identidade da página (logo, "404" vazado na cor primária, botão para o início), traduzida (`app/[locale]/not-found.tsx` + catch-all `[...rest]`) e um `global-not-found` (flag experimental do Next 16) para URLs fora do layout de idioma.
+- **Easter egg no console:** quem abre o DevTools vê uma mensagem com a stack e o link do repositório (`ConsoleGreeting`).
 - **Links e formulário:** os links de navegação apontam para âncoras das seções. O formulário valida no client e simula o envio (sem backend, como o desafio permite).
 
 ## 5.1 Mudanças intencionais no design (decisão do autor — ⚠️ OBRIGATÓRIO no README)

@@ -1,3 +1,4 @@
+import { ConsoleGreeting } from "@/components/layout/ConsoleGreeting";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { CustomCursor } from "@/components/motion/CustomCursor";
@@ -58,6 +59,7 @@ export default async function Home({ params }: PageProps<"/[locale]">) {
       <Footer content={footer[locale]} />
       <ProgressiveBlur />
       <CustomCursor />
+      <ConsoleGreeting />
     </>
   );
 }
