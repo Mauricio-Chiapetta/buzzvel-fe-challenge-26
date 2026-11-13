@@ -25,15 +25,15 @@ export const hero: HeroContent = {
   secondaryCta: { label: "See how it works", href: "#how-it-works" },
   trust: {
     avatars: [
-      { src: "/images/hero/avatar-1.png", alt: "", width: 80, height: 80 },
-      { src: "/images/hero/avatar-2.png", alt: "", width: 80, height: 80 },
-      { src: "/images/hero/avatar-3.png", alt: "", width: 80, height: 80 },
+      { src: "/images/hero/avatar-1.jpg", alt: "", width: 80, height: 80 },
+      { src: "/images/hero/avatar-2.jpg", alt: "", width: 80, height: 80 },
+      { src: "/images/hero/avatar-3.jpg", alt: "", width: 80, height: 80 },
     ],
     highlight: "Trusted by 24,000+",
     label: "learners",
   },
   image: {
-    src: "/images/hero/hero-learner.png",
+    src: "/images/hero/hero-learner.jpg",
     alt: "Smiling woman with glasses learning at her laptop in a bright office",
     width: 900,
     height: 1100,

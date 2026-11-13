@@ -85,7 +85,7 @@ Para **cada** seção, o mesmo ciclo:
 Ordem (ver mapa na seção 4):
 - [x] 1.1 Header / Navbar (+ menu mobile)
 - [x] 1.2 Hero
-- [ ] 1.3 Categories
+- [x] 1.3 Categories
 - [ ] 1.4 FeaturedCourse
 - [ ] 1.5 HowItWorks
 - [ ] 1.6 Testimonial + stats
@@ -142,7 +142,7 @@ Marca fictícia: **luma.** (plataforma de cursos online).
 |---|---|---|---|---|---|---|
 | 1 | Header | `15:116` | `2:4199` | Logo, nav (Courses, For Teams, Community, About), Log in, Start learning. Mobile: menu hambúrguer | sim (toggle) | ✅ |
 | 2 | Hero | `2:38` | `2:4208` | Eyebrow, H1, texto, 2 CTAs, avatares "Trusted by 24,000+", imagem com cards flutuantes (120+ courses, 4.9 rating) | não | ✅ |
-| 3 | Categories | `2:100` | `2:4269` | 4 cards numerados (Product Design, Technology, Business, Creative) com link "Explore →" | não | ⬜ |
+| 3 | Categories | `2:100` | `2:4269` | 4 cards numerados (Product Design, Technology, Business, Creative) com link "Explore →" | não | ✅ |
 | 4 | FeaturedCourse | `2:193` | `2:4361` | Fundo azul, imagem com badge, título, instrutor, tags (8 lessons, 2h 40min, Intermediate), botão amarelo + link | não | ⬜ |
 | 5 | HowItWorks | `2:238` | `2:4405` | 3 passos com ícones ligados por linha (horizontal no desktop, vertical no mobile) | não | ⬜ |
 | 6 | Testimonial | `2:305` | `2:4471` | Citação + autor + 3 estatísticas (24K+, 120+, 92%) | não | ⬜ |
@@ -163,6 +163,8 @@ Marca fictícia: **luma.** (plataforma de cursos online).
 - **Erro de digitação nos tokens:** o Figma usa `backgrounnd-*`. Normalizamos para `background-*` no `@theme`.
 - **Menu mobile aberto:** não existe no design; o estado aberto foi decisão nossa, seguindo o estilo do header.
 - **Sem frame de tablet:** o layout entre 402px e 1280px foi decisão nossa (empilhado até `lg`, com ajustes intermediários).
+- **Assets do Figma:** algumas imagens vêm como JPEG com extensão `.png`; renomeamos para a extensão real (`.jpg`).
+- **Identidade da página:** favicon/ícones criados a partir da marca "l." do logo (não existe no Figma); imagem Open Graph gerada no build com `next/og`.
 - **Header sticky:** o design não define; deixamos o header fixo no topo (sticky) para facilitar a navegação.
 - **Links e formulário:** os links de navegação apontam para âncoras das seções. O formulário valida no client e simula o envio (sem backend, como o desafio permite).
 

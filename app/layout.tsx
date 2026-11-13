@@ -14,16 +14,36 @@ const jakarta = Plus_Jakarta_Sans({
   display: "swap",
 });
 
+/** Absolute base for OG/canonical URLs — Vercel's production URL when deployed, localhost otherwise. */
+const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : "http://localhost:3000";
+
+const description =
+  "Practical courses taught by people who do the work every day. Learn design, technology, business and more — one focused lesson at a time.";
+
 export const metadata: Metadata = {
-  title: "Luma — Build skills that actually move you forward",
-  description:
-    "Practical courses taught by people who do the work every day. Learn design, technology, business and more — one focused lesson at a time.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Luma | Practical online courses",
+    template: "%s | Luma",
+  },
+  description,
+  applicationName: "Luma",
+  keywords: ["online courses", "product design", "technology", "business", "creative skills"],
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "Luma — Build skills that actually move you forward",
-    description:
-      "Practical courses taught by people who do the work every day. Learn design, technology, business and more.",
     type: "website",
     siteName: "Luma",
+    title: "Luma | Build skills that actually move you forward",
+    description,
+    url: "/",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Luma | Build skills that actually move you forward",
+    description,
   },
 };
 

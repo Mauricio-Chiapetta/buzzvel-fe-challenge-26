@@ -55,6 +55,11 @@
   --text-h1-mobile: 2.5rem;
   --text-h1-mobile--line-height: 2.75rem;
   --text-h1-mobile--letter-spacing: -0.0625rem;
+  --text-h3-mobile: 2rem;
+  --text-h3-mobile--line-height: 2.25rem;
+  --text-h3-mobile--letter-spacing: -0.05rem;
+  --text-h5-mobile: 1.25rem;
+  --text-h5-mobile--line-height: 1.75rem;
   --text-subtitle-1-mobile: 1rem;
   --text-subtitle-1-mobile--line-height: 1.625rem;
 
