@@ -12,7 +12,7 @@ A responsive landing page for **Luma**, a fictional online-courses platform, bui
 
 | Desktop | Mobile |
 |---|---|
-| ![Lighthouse desktop: Performance 100, Accessibility 96, Best Practices 100, SEO 100](docs/lighthouse-desktop.png) | ![Lighthouse mobile: Performance 99, Accessibility 96, Best Practices 100, SEO 100](docs/lighthouse-mobile.png) |
+| ![Lighthouse desktop: Performance 100, Accessibility 96, Best Practices 100, SEO 100](docs/lighthouse-desktop.png) | ![Lighthouse mobile: Performance 100, Accessibility 96, Best Practices 100, SEO 100](docs/lighthouse-mobile.png) |
 
 The screenshots above (Accessibility 96) were taken before the contrast fix described under [Accessibility](#accessibility).
 
