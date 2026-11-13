@@ -23,7 +23,7 @@ export function FinalCta({ content }: FinalCtaProps) {
           className="mx-auto flex max-w-180 flex-col items-center text-center lg:px-8"
         >
           <RevealItem variant="scale">
-            <AvatarStack avatars={content.avatars} size="md" ringClassName="border-yellow" />
+            <AvatarStack people={content.people} size="md" ringClassName="border-yellow" />
           </RevealItem>
           <RevealItem>
             <h2

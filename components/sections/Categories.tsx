@@ -1,4 +1,4 @@
-import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import { Reveal } from "@/components/motion/Reveal";
 import { CategoryCard } from "@/components/ui/CategoryCard";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -12,32 +12,37 @@ export function Categories({ content }: CategoriesProps) {
   return (
     <section id="courses" aria-labelledby="categories-title" className="bg-white py-15 lg:py-25">
       <Container>
-        <Reveal>
-          <SectionHeading
-            id="categories-title"
-            eyebrow={content.eyebrow}
-            title={content.title}
-            description={content.description}
-          />
-        </Reveal>
+        <SectionHeading
+          id="categories-title"
+          eyebrow={content.eyebrow}
+          title={content.title}
+          description={content.description}
+          animated
+        />
 
-        <RevealGroup
-          as="ul"
-          stagger={0.1}
-          className="mt-12 grid gap-4 md:grid-cols-2 lg:mt-10 lg:grid-cols-4 lg:gap-5"
-        >
+        {/* Each card has its own in-view trigger (one at a time on mobile as you scroll);
+            the per-index delay staggers them when a whole row enters together on desktop. */}
+        <ul className="mt-12 grid gap-4 md:grid-cols-2 lg:mt-10 lg:grid-cols-4 lg:gap-5">
           {content.items.map((item, index) => (
-            <RevealItem as="li" key={item.title} className="flex">
+            <Reveal
+              as="li"
+              variant="soft"
+              duration={1.1}
+              delay={index * 0.18}
+              key={item.title}
+              className="flex"
+            >
               <CategoryCard
                 index={index}
+                icon={item.icon}
                 title={item.title}
                 description={item.description}
                 href={item.href}
                 linkLabel={content.linkLabel}
               />
-            </RevealItem>
+            </Reveal>
           ))}
-        </RevealGroup>
+        </ul>
       </Container>
     </section>
   );

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import { MotionProvider } from "@/components/motion/MotionProvider";
+import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import "./globals.css";
 
 const inter = Inter({
@@ -56,7 +57,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${inter.variable} ${jakarta.variable}`}>
       <body>
-        <MotionProvider>{children}</MotionProvider>
+        <SmoothScroll>
+          <MotionProvider>{children}</MotionProvider>
+        </SmoothScroll>
       </body>
     </html>
   );

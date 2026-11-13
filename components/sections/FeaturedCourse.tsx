@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ParallaxLayer } from "@/components/motion/ParallaxLayer";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
@@ -24,13 +25,15 @@ export function FeaturedCourse({ content }: FeaturedCourseProps) {
         {/* Image with "Featured course" badge */}
         <Reveal variant="left" className="relative lg:flex-1">
           <div className="relative h-70 overflow-hidden rounded-2xl md:h-96 lg:h-102">
-            <Image
-              src={image.src}
-              alt={image.alt}
-              fill
-              sizes="(min-width: 1280px) 530px, (min-width: 1024px) 45vw, 100vw"
-              className="object-cover"
-            />
+            <ParallaxLayer amount={50}>
+              <Image
+                src={image.src}
+                alt={image.alt}
+                fill
+                sizes="(min-width: 1280px) 530px, (min-width: 1024px) 45vw, 100vw"
+                className="object-cover"
+              />
+            </ParallaxLayer>
           </div>
           <p className="absolute -top-3 -left-3 rounded-md bg-yellow px-3 py-1.5 text-overline font-semibold text-ink uppercase">
             {badge}

@@ -31,6 +31,7 @@ Construir **uma página completa e responsiva** (desktop + mobile, funcionando t
 - **Fontes:** `next/font` (Google ou local, conforme o Figma) com `display: swap` e subset `latin`.
 - **Imagens:** exportadas do Figma (SVG para ícones/logos, WebP/AVIF para fotos) em `public/`, renderizadas com `next/image`.
 - **Animações:** **Motion** (`motion/react`, ex-Framer Motion) via `LazyMotion` + `m` (features carregadas sob demanda) e `MotionConfig reducedMotion="user"`. Exceções em CSS puro: entrada do Hero (sem JS → não atrasa o LCP) e flutuações em loop (custo zero de JS).
+- **Scroll suave:** **Lenis** (`lenis/react`, `ReactLenis root`). Âncoras tratadas por um handler próprio (`SmoothScroll.tsx`): rola com offset do header, atualiza a URL e move o foco para a seção (o `anchors` nativo do Lenis não faz `preventDefault` nem move o foco). Respeita `prefers-reduced-motion`.
 - **Testes:** Vitest + React Testing Library (unitários/componentes) e, se der tempo, Playwright para um smoke test e2e + checagem de acessibilidade com axe.
 - **Commits:** feitos manualmente pelo autor (o agente não commita).
 
@@ -195,10 +196,12 @@ Alterações feitas **de propósito** em relação ao Figma original da Buzzvel.
 | # | Seção | Original (Figma Buzzvel) | Alteração | Motivo |
 |---|---|---|---|---|
 | 1 | Hero (mobile/tablet) | Imagem com os cards flutuantes **acima** do título e dos textos | Imagem movida para **abaixo** dos textos e CTAs | O título (H1) e os botões aparecem logo no primeiro scroll, a mensagem principal vem antes da ilustração e a ordem visual passa a seguir a ordem do HTML (melhor para leitores de tela). |
+| 2 | Categories (todos os breakpoints) | Cards só com o número (01–04) | Ícone animado ao lado do número em cada card ([lucide-animated](https://lucide-animated.com), MIT): Product Design → `pen-tool`, Technology → `cpu`, Business → `trending-up`, Creative → `sparkles`. O ícone anima uma vez quando o card entra na tela e de novo no hover/foco | Reforça visualmente cada categoria e dá personalidade/micro-interação aos cards, sem mudar layout nem hierarquia do design. |
 
 Rascunho para o README (inglês):
 > **Intentional design changes**
 > - **Hero on mobile:** the original design places the image above the headline. I moved it below the copy and CTAs so the main message and the primary actions are visible in the first viewport, and so the visual order matches the DOM/reading order.
+> - **Category icons:** I added a small animated icon next to each category number (from [lucide-animated](https://lucide-animated.com), adapted to the project's lazy-loaded Motion setup). Each icon plays once as its card scrolls in and again on hover or keyboard focus — a small touch of personality that reinforces each category without changing the layout.
 
 ## 6. Cronograma sugerido
 | Dia | Foco |

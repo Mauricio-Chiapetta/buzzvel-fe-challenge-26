@@ -27,7 +27,7 @@ export function CtaDecorations() {
   const reduceMotion = useReducedMotion();
   const rawX = useMotionValue(0);
   const rawY = useMotionValue(0);
-  const spring = { stiffness: 60, damping: 18, mass: 0.6 };
+  const spring = { stiffness: 100, damping: 18, mass: 0.6 };
   const pointer: Pointer = { x: useSpring(rawX, spring), y: useSpring(rawY, spring) };
 
   useEffect(() => {

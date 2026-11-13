@@ -6,6 +6,12 @@ export type ImageAsset = {
   height: number;
 };
 
+export type Person = {
+  name: string;
+  role: string;
+  image: ImageAsset;
+};
+
 export type LinkItem = {
   label: string;
   href: string;

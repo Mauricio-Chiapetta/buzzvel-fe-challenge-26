@@ -1,4 +1,5 @@
-import type { ImageAsset, LinkItem } from "@/types/content";
+import type { ImageAsset, LinkItem, Person } from "@/types/content";
+import { learners } from "./learners";
 
 export type HeroContent = {
   eyebrow: string;
@@ -7,7 +8,7 @@ export type HeroContent = {
   primaryCta: LinkItem;
   secondaryCta: LinkItem;
   trust: {
-    avatars: ImageAsset[];
+    people: Person[];
     highlight: string;
     label: string;
   };
@@ -24,11 +25,7 @@ export const hero: HeroContent = {
   primaryCta: { label: "Explore courses", href: "#courses" },
   secondaryCta: { label: "See how it works", href: "#how-it-works" },
   trust: {
-    avatars: [
-      { src: "/images/hero/avatar-1.jpg", alt: "", width: 80, height: 80 },
-      { src: "/images/hero/avatar-2.jpg", alt: "", width: 80, height: 80 },
-      { src: "/images/hero/avatar-3.jpg", alt: "", width: 80, height: 80 },
-    ],
+    people: learners.slice(0, 3),
     highlight: "Trusted by 24,000+",
     label: "learners",
   },
