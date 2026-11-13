@@ -1,5 +1,6 @@
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { ProgressiveBlur } from "@/components/motion/ProgressiveBlur";
 import { Categories } from "@/components/sections/Categories";
 import { Contact } from "@/components/sections/Contact";
 import { FeaturedCourse } from "@/components/sections/FeaturedCourse";
@@ -39,6 +40,7 @@ export default function Home() {
         <FinalCta content={finalCta} />
       </main>
       <Footer content={footer} />
+      <ProgressiveBlur />
     </>
   );
 }

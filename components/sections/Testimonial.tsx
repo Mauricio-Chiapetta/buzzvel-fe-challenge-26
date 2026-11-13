@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { CountUp } from "@/components/motion/CountUp";
 import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
+import { ScrollRevealText } from "@/components/motion/ScrollRevealText";
 import { Container } from "@/components/ui/Container";
 import type { TestimonialContent } from "@/data/testimonial";
 
@@ -14,13 +15,16 @@ export function Testimonial({ content }: TestimonialProps) {
   return (
     <section aria-label="What learners say" className="bg-white py-15 lg:py-25">
       <Container className="flex flex-col gap-15 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
-        <Reveal className="max-w-150">
-          <figure className="flex flex-col">
+        <figure className="flex max-w-150 flex-col">
+          <Reveal variant="scale" className="self-start">
             <Image src="/icons/quote.svg" alt="" width={24} height={22} unoptimized />
-            <blockquote className="pt-4 font-display text-quote-mobile font-semibold lg:text-quote">
-              <p>{quote}</p>
-            </blockquote>
-            <figcaption className="flex items-center gap-4 pt-8">
+          </Reveal>
+          {/* Words light up one by one as the quote scrolls up the screen */}
+          <blockquote className="pt-4 font-display text-quote-mobile font-semibold lg:text-quote">
+            <ScrollRevealText text={quote} />
+          </blockquote>
+          <figcaption className="pt-8">
+            <Reveal delay={0.1} className="flex items-center gap-4">
               <Image
                 src={author.avatar.src}
                 alt={author.avatar.alt}
@@ -32,9 +36,9 @@ export function Testimonial({ content }: TestimonialProps) {
                 <span className="text-subtitle-2 font-bold">{author.name}</span>
                 <span className="text-body-1 text-ink-secondary">{author.role}</span>
               </span>
-            </figcaption>
-          </figure>
-        </Reveal>
+            </Reveal>
+          </figcaption>
+        </figure>
 
         <RevealGroup
           as="ul"
