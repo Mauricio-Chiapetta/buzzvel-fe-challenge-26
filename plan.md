@@ -1,0 +1,176 @@
+# Plano — Buzzvel Front-End Challenge (Nov 2026)
+
+## 1. Resumo do desafio
+
+Construir **uma página completa e responsiva** (desktop + mobile, funcionando também em tablet) a partir do Figma "Buzzvel FE Test 2026", usando **Next.js App Router + TypeScript + Tailwind CSS**.
+
+- **Prazo de entrega:** sexta, 20/11/2026 (o convite define hora/fuso exatos — confirmar).
+- **Entrega:** repositório **público** no GitHub + README **em inglês**, enviado pelo formulário da Buzzvel.
+- **Opcionais que somam pontos:** live preview (Vercel), screenshot do Lighthouse, Storybook ou testes automatizados.
+
+### Critérios de avaliação (o que eles olham)
+| Critério | Como vamos atender |
+|---|---|
+| Fidelidade ao design | Tokens extraídos do Figma via MCP (cores, tipografia, espaçamentos), comparação visual seção a seção |
+| Responsividade | Mobile-first, breakpoints alinhados com os frames do Figma, checagem em 375 / 768 / 1024 / 1440 |
+| Qualidade de código | Componentes pequenos, reutilizáveis, com props tipadas; dados mockados separados da UI |
+| Interações funcionando | Implementar todas as interações que aparecem no design (menu mobile, carrossel, accordion, etc. — confirmar no Figma) |
+| Acessibilidade | HTML semântico, navegação por teclado, foco visível, `alt` em imagens, ARIA só quando necessário, contraste |
+| Performance | `next/image`, `next/font`, Server Components por padrão, JS mínimo no client, Lighthouse ≥ 90 |
+| Decisões claras | Registrar decisões e ambiguidades no README conforme surgirem |
+
+> **Regra:** todas as seções do design desktop **e** mobile são obrigatórias. Onde algo for ambíguo, escolhemos algo razoável e documentamos no README.
+
+---
+
+## 2. Stack e convenções
+
+- **Next.js 16.4.6** (App Router) — atenção: versão com breaking changes; consultar `node_modules/next/dist/docs/` antes de usar APIs (fonts, images, metadata, `cacheComponents` já está ativo no `next.config.ts`).
+- **React 19.3**, **TypeScript** strict.
+- **Tailwind CSS 4** (config via `@theme` no `globals.css`, sem `tailwind.config.js`).
+- **Fontes:** `next/font` (Google ou local, conforme o Figma) com `display: swap` e subset `latin`.
+- **Imagens:** exportadas do Figma (SVG para ícones/logos, WebP/AVIF para fotos) em `public/`, renderizadas com `next/image`.
+- **Animações (fase posterior):** CSS/Tailwind primeiro; Motion (`motion/react`) só se precisar de algo mais elaborado. Sempre respeitando `prefers-reduced-motion`.
+- **Testes:** Vitest + React Testing Library (unitários/componentes) e, se der tempo, Playwright para um smoke test e2e + checagem de acessibilidade com axe.
+- **Commits:** feitos manualmente pelo autor (o agente não commita).
+
+### Estrutura de pastas proposta
+```
+app/
+  layout.tsx          # fontes, metadata, <html lang>
+  page.tsx            # compõe as seções
+  globals.css         # @theme com tokens do Figma
+  icon / opengraph-image (metadata files)
+components/
+  ui/                 # primitivos reutilizáveis: Button, Container, SectionHeading, Icon...
+  sections/           # Header, Hero, ..., Footer (uma pasta/arquivo por bloco)
+data/                 # conteúdo mockado tipado (textos, cards, links)
+lib/                  # utils (cn, hooks como useReducedMotion)
+types/                # tipos compartilhados
+public/images/        # assets exportados do Figma
+tests/ ou __tests__/  # testes
+```
+
+### Princípios de componentes
+- **Server Components por padrão**; `"use client"` só nos componentes com interação (menu mobile, carrossel, tabs...).
+- Conteúdo vem de `data/*.ts` tipado → seções recebem props, não strings hardcoded.
+- Primitivos (`Button`, `Container`, `SectionHeading`) com variantes tipadas, reaproveitados por todas as seções.
+- Um nível de heading coerente na página (`h1` único no Hero, `h2` por seção).
+
+---
+
+## 3. Etapas
+
+### Etapa 0 — Setup e fundação
+- [x] Receber a cópia do Figma e conectar via MCP do Figma.
+- [x] Mapear **todas as seções** (desktop e mobile) e listar as interações de cada uma → atualizar a seção 4 deste plano.
+- [x] Extrair tokens: cores, fontes (famílias, pesos, tamanhos, line-heights), espaçamentos, raios, sombras, largura do container, breakpoints.
+- [x] Limpar o boilerplate do create-next-app (página, SVGs, tema dark padrão).
+- [x] Configurar `globals.css` com `@theme` (tokens) e fontes via `next/font` no `layout.tsx`.
+- [x] Metadata base: `title`, `description`, `openGraph`, `viewport`, favicon, `lang`.
+- [x] Criar primitivos de UI (`Container`, `Button`, `SectionHeading`...).
+- [ ] Exportar assets do Figma para `public/images`.
+- [ ] Setup de Prettier (opcional) e scripts `lint`, `typecheck`, `test`.
+
+### Etapa 1 — Construção das seções (uma por vez)
+Para **cada** seção, o mesmo ciclo:
+1. Ler o frame desktop + mobile no Figma (MCP: design context + screenshot).
+2. Modelar os dados em `data/` e os tipos das props.
+3. Implementar mobile-first, depois tablet/desktop.
+4. Implementar a interação da seção (se houver) com suporte a teclado.
+5. Comparar visualmente com o Figma (screenshot lado a lado) em 375 e 1440.
+6. Checar a11y básica (semântica, foco, alt, contraste).
+7. Revisão sua → ajustes → você commita.
+
+Ordem (ver mapa na seção 4):
+- [x] 1.1 Header / Navbar (+ menu mobile)
+- [x] 1.2 Hero
+- [ ] 1.3 Categories
+- [ ] 1.4 FeaturedCourse
+- [ ] 1.5 HowItWorks
+- [ ] 1.6 Testimonial + stats
+- [ ] 1.7 People (colagem de fotos)
+- [ ] 1.8 Contact (formulário com validação)
+- [ ] 1.9 FinalCTA
+- [ ] 1.10 Footer
+
+### Etapa 2 — Polimento e responsividade
+- [ ] Varredura em 320 / 375 / 768 / 1024 / 1280 / 1440 / 1920.
+- [ ] Navegação completa só pelo teclado (Tab, Shift+Tab, Enter, Esc em menus/modais).
+- [ ] Skip link "Skip to content".
+- [ ] Estados de hover/focus/active consistentes com o design.
+
+### Etapa 3 — Animações (sua parte criativa)
+- [ ] Definir junto as animações (entrada de seções, hover, micro-interações, etc.).
+- [ ] Toda animação desligada/reduzida com `prefers-reduced-motion` (CSS `motion-safe:`/`motion-reduce:` ou hook).
+- [ ] Animar só `transform`/`opacity` para não causar layout shift (CLS).
+
+### Etapa 4 — Testes
+Básicos mas significativos:
+- [ ] **Vitest + RTL**: primitivos (`Button` variantes/aria), componentes interativos (menu mobile abre/fecha, `aria-expanded`, Esc fecha; carrossel/tabs/accordion trocam estado), seções renderizam dados mockados.
+- [ ] **Playwright (se der tempo)**: smoke test da página em viewport mobile e desktop + `@axe-core/playwright` sem violações críticas.
+- [ ] Script `npm test` documentado no README.
+
+### Etapa 5 — Performance e qualidade
+- [ ] `npm run build` sem erros/warnings; `npm run lint` e `tsc --noEmit` limpos.
+- [ ] Imagens: tamanhos corretos (`sizes`), `priority`/preload só na imagem do Hero, formatos modernos.
+- [ ] Fontes: só os pesos usados.
+- [ ] Lighthouse (mobile e desktop) — meta ≥ 90 em todas as categorias; salvar screenshot.
+- [ ] Verificar que componentes client são mínimos.
+
+### Etapa 6 — Entrega
+- [ ] Deploy na Vercel (live preview).
+- [ ] README em inglês com:
+  - Instalar, rodar, buildar, testar.
+  - Decisões técnicas e interpretações de ambiguidades do design.
+  - Gaps conhecidos / checks falhando (ser honesto).
+  - Tempo aproximado gasto.
+  - Uso de IA (Claude Code + MCP do Figma): como foi usado e como os resultados foram verificados.
+  - Link do preview + screenshot do Lighthouse.
+- [ ] Repositório público no GitHub.
+- [ ] Testar a página final em celular real + desktop.
+- [ ] Enviar o link pelo formulário até 20/11.
+
+---
+
+## 4. Mapa de seções (preencher com o Figma)
+
+Figma: arquivo `uD31QWrjqQzwTKqILFo53r`, página `TEST`. Frames: **FE - Desktop** (`2:7`, 1280px) e **FE - Mobile** (`2:4195`, 402px). Não há frame de tablet.
+Marca fictícia: **luma.** (plataforma de cursos online).
+
+| # | Seção | Desktop | Mobile | Conteúdo / Interações | Client? | Status |
+|---|---|---|---|---|---|---|
+| 1 | Header | `15:116` | `2:4199` | Logo, nav (Courses, For Teams, Community, About), Log in, Start learning. Mobile: menu hambúrguer | sim (toggle) | ✅ |
+| 2 | Hero | `2:38` | `2:4208` | Eyebrow, H1, texto, 2 CTAs, avatares "Trusted by 24,000+", imagem com cards flutuantes (120+ courses, 4.9 rating) | não | ✅ |
+| 3 | Categories | `2:100` | `2:4269` | 4 cards numerados (Product Design, Technology, Business, Creative) com link "Explore →" | não | ⬜ |
+| 4 | FeaturedCourse | `2:193` | `2:4361` | Fundo azul, imagem com badge, título, instrutor, tags (8 lessons, 2h 40min, Intermediate), botão amarelo + link | não | ⬜ |
+| 5 | HowItWorks | `2:238` | `2:4405` | 3 passos com ícones ligados por linha (horizontal no desktop, vertical no mobile) | não | ⬜ |
+| 6 | Testimonial | `2:305` | `2:4471` | Citação + autor + 3 estatísticas (24K+, 120+, 92%) | não | ⬜ |
+| 7 | People ("Section") | `4:1136` | `4:1234` | Texto + botão, colagem de fotos sobre círculo | não | ⬜ |
+| 8 | Contact | `19:77` | `21:52` | Info (email, tempo de resposta) + formulário (nome, email, dúvida) | sim (form) | ⬜ |
+| 9 | FinalCTA | `2:352` | `2:4517` | Fundo amarelo com formas decorativas, avatares, título, 2 CTAs | não | ⬜ |
+| 10 | Footer | `2:384` | `2:4544` | Logo branco, tagline, 3 colunas de links (Explore, Company, Support), copyright | não | ⬜ |
+
+### Tokens do Figma
+- **Cores:** text-primary `#171b2c`, text-secondary `#656770`, text-tertiary `#6d7384`, primary-blue `#3157f6`, primary-blue-light `#e2e8ff`, primary-orange `#ff704d`, background-orange `#ffcb9f`, secondary-yellow `#ffee7e`, background-yellow `#fff1c2`, background-light-yellow `#f9f8f3`, background-darkblue `#171b2c`, line-1 `#dbdfeb`, text-white-primary `#fff`, text-white-secondary `#e7e7ec`, text-white-tertiary `#9e9faa`.
+- **Fontes:** Plus Jakarta Sans (headings, 600/700/800) e Inter (corpo, 400/600/700).
+- **Tipografia desktop → mobile:** H1 64/70 (-1.6) → 40/44 (-1); H2 56/64 (-1.4); H3 48/56 (-1.2); H5 20/32; quotes 30/44 (-0.75); subtitle-1 18/28 → 16/26; subtitle-2 16/28; body-1 14/24; overline 12/16 (+1.44, uppercase).
+- **Layout:** container de 1120px (padding lateral de 80px no desktop e 20px no mobile).
+
+## 5. Decisões / ambiguidades (vai para o README)
+- **Rótulo de passo repetido:** no desktop, o HowItWorks mostra "STEP 01" nos três passos; o mobile mostra 01/02/03. Vamos usar 01/02/03 (provável erro no design).
+- **Formulário mobile em português:** o Contact mobile está em PT ("Nome completo", "Enviar mensagem") e o desktop em EN. Vamos usar inglês nos dois (`lang="en"`).
+- **Erro de digitação nos tokens:** o Figma usa `backgrounnd-*`. Normalizamos para `background-*` no `@theme`.
+- **Menu mobile aberto:** não existe no design; o estado aberto foi decisão nossa, seguindo o estilo do header.
+- **Sem frame de tablet:** o layout entre 402px e 1280px foi decisão nossa (empilhado até `lg`, com ajustes intermediários).
+- **Header sticky:** o design não define; deixamos o header fixo no topo (sticky) para facilitar a navegação.
+- **Links e formulário:** os links de navegação apontam para âncoras das seções. O formulário valida no client e simula o envio (sem backend, como o desafio permite).
+
+## 6. Cronograma sugerido
+| Dia | Foco |
+|---|---|
+| 16/11 (seg) | Etapa 0 + Header + Hero |
+| 17/11 (ter) | Seções intermediárias |
+| 18/11 (qua) | Seções restantes + Footer + polimento responsivo |
+| 19/11 (qui) | Animações + testes + performance |
+| 20/11 (sex) | README, deploy, revisão final e envio |
