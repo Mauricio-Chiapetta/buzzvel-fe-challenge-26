@@ -26,7 +26,6 @@ export function Header({ navigation }: HeaderProps) {
           <LocaleSwitcher className="mr-2" />
           <Link
             href={login.href}
-            data-cursor="wrap"
             className="rounded-lg px-4 py-2.5 text-body-1 text-ink-secondary transition-colors hover:text-ink"
           >
             {login.label}

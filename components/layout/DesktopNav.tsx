@@ -25,7 +25,6 @@ export function DesktopNav({ links }: DesktopNavProps) {
             <li key={link.href} className="relative">
               <Link
                 href={link.href}
-                data-cursor="wrap"
                 aria-current={isActive ? "location" : undefined}
                 className={cn(
                   "text-body-1 transition-colors hover:text-ink",

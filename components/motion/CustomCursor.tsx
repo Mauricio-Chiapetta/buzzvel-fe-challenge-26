@@ -5,9 +5,13 @@ import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
 import { useMediaQuery } from "@/lib/useMediaQuery";
 
-/** Elements the ring wraps itself around (buttons and button-like links). */
+/** Elements the ring wraps itself around (buttons and button-styled links). */
 const WRAP_TARGETS = "button, [data-cursor='wrap']";
-const TEXT_FIELDS = "input, textarea, select, [contenteditable='true']";
+/**
+ * Where the ring hides and only the native cursor shows: text fields, and plain text links
+ * (nav, "Browse all courses", footer…), which have their own underline hover.
+ */
+const HIDE_TARGETS = "input, textarea, select, [contenteditable='true'], a";
 
 const RING_SIZE = 26;
 /** Extra space between the ring and the wrapped element's edge. */
@@ -27,7 +31,7 @@ const spring = { stiffness: 380, damping: 32, mass: 0.6 };
  * a ring trails it with a spring and, over buttons / button-like links, morphs into an outline
  * of the element (position, size and border radius) — the "wrapping" cursor seen on many
  * award-winning sites. Yellow over blue/dark areas marked with `data-cursor-theme="inverse"`,
- * hidden over text fields. Mouse/trackpad only; disabled under reduced motion.
+ * hidden over text fields and plain text links. Mouse/trackpad only; disabled under reduced motion.
  */
 export function CustomCursor() {
   const finePointer = useMediaQuery("(hover: hover) and (pointer: fine)");
@@ -45,7 +49,7 @@ export function CustomCursor() {
   const [wrapping, setWrapping] = useState(false);
   const [pressed, setPressed] = useState(false);
   const [inverse, setInverse] = useState(false);
-  const [overText, setOverText] = useState(false);
+  const [hidden, setHidden] = useState(false);
 
   const target = useRef<HTMLElement | null>(null);
   const pointer = useRef({ x: -100, y: -100 });
@@ -88,7 +92,7 @@ export function CustomCursor() {
       const wrapTarget = element.closest<HTMLElement>(WRAP_TARGETS);
       target.current = wrapTarget;
       setWrapping(Boolean(wrapTarget));
-      setOverText(Boolean(element.closest(TEXT_FIELDS)));
+      setHidden(!wrapTarget && Boolean(element.closest(HIDE_TARGETS)));
       setInverse(Boolean(element.closest("[data-cursor-theme='inverse']")));
       update();
     }
@@ -122,7 +126,7 @@ export function CustomCursor() {
       aria-hidden="true"
       style={{ x, y, width, height, borderRadius: radius, translateX: "-50%", translateY: "-50%" }}
       animate={{
-        opacity: !visible || overText ? 0 : 1,
+        opacity: !visible || hidden ? 0 : 1,
         scale: pressed ? (wrapping ? 0.96 : 0.8) : 1,
       }}
       transition={{ type: "spring", stiffness: 400, damping: 28 }}

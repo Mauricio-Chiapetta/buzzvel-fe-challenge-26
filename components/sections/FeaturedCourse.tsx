@@ -123,7 +123,6 @@ export function FeaturedCourse({ content }: FeaturedCourseProps) {
             </ButtonLink>
             <Link
               href={secondaryCta.href}
-              data-cursor="wrap"
               className="group flex rounded-lg items-center justify-center gap-2 px-4 py-3.5 text-body-1 font-bold text-white-secondary transition-colors hover:text-white focus-visible:outline-white"
             >
               {/* Underline draws from the left on hover */}
