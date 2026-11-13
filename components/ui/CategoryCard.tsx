@@ -16,7 +16,7 @@ export function CategoryCard({ index, title, description, href, linkLabel }: Cat
   return (
     <Link
       href={href}
-      className="group flex min-h-50 w-full flex-col justify-between rounded-2xl border border-line bg-white p-6 transition-colors hover:border-primary lg:min-h-65 lg:p-7"
+      className="group flex min-h-50 w-full flex-col justify-between rounded-2xl border border-line bg-white p-6 transition-[border-color,box-shadow,translate] duration-300 hover:border-primary hover:shadow-lift motion-safe:hover:-translate-y-1 lg:min-h-65 lg:p-7"
     >
       <div>
         <div className="h-[46.5px] pt-0.5">

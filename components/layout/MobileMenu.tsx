@@ -1,5 +1,6 @@
 "use client";
 
+import { AnimatePresence, m } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useId, useRef, useState } from "react";
@@ -58,44 +59,72 @@ export function MobileMenu({ links, login, signup }: MobileMenuProps) {
         aria-label={open ? "Close menu" : "Open menu"}
         onClick={() => setOpen((value) => !value)}
       >
-        <Image
-          src={open ? "/icons/close.svg" : "/icons/menu.svg"}
-          alt=""
-          width={24}
-          height={24}
-          unoptimized
-        />
+        <AnimatePresence mode="wait" initial={false}>
+          <m.span
+            key={open ? "close" : "menu"}
+            className="flex"
+            initial={{ opacity: 0, rotate: -90 }}
+            animate={{ opacity: 1, rotate: 0 }}
+            exit={{ opacity: 0, rotate: 90 }}
+            transition={{ duration: 0.15 }}
+          >
+            <Image
+              src={open ? "/icons/close.svg" : "/icons/menu.svg"}
+              alt=""
+              width={24}
+              height={24}
+              unoptimized
+            />
+          </m.span>
+        </AnimatePresence>
       </button>
 
-      <div
-        id={panelId}
-        hidden={!open}
-        className="absolute inset-x-0 top-full border-b border-line bg-cream shadow-float"
-      >
-        <nav aria-label="Mobile" className="px-5 pt-2 pb-6">
-          <ul className="flex flex-col">
-            {links.map((link) => (
-              <li key={link.href} className="border-b border-line">
-                <Link
-                  href={link.href}
-                  onClick={close}
-                  className="block py-4 text-subtitle-2 text-ink transition-colors hover:text-primary"
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-6 flex flex-col gap-3">
-            <ButtonLink href={signup.href} onClick={close} fullWidth>
-              {signup.label}
-            </ButtonLink>
-            <ButtonLink href={login.href} onClick={close} variant="secondary" fullWidth>
-              {login.label}
-            </ButtonLink>
-          </div>
-        </nav>
-      </div>
+      <AnimatePresence>
+        {open && (
+          <m.div
+            id={panelId}
+            key="panel"
+            className="absolute inset-x-0 top-full origin-top border-b border-line bg-cream shadow-float"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8, transition: { duration: 0.15 } }}
+            transition={{ duration: 0.25, ease: [0.2, 0.7, 0.2, 1] }}
+          >
+            <nav aria-label="Mobile" className="px-5 pt-2 pb-6">
+              <m.ul
+                className="flex flex-col"
+                initial="hidden"
+                animate="show"
+                variants={{ hidden: {}, show: { transition: { staggerChildren: 0.05, delayChildren: 0.05 } } }}
+              >
+                {links.map((link) => (
+                  <m.li
+                    key={link.href}
+                    className="border-b border-line"
+                    variants={{ hidden: { opacity: 0, x: -12 }, show: { opacity: 1, x: 0 } }}
+                  >
+                    <Link
+                      href={link.href}
+                      onClick={close}
+                      className="block py-4 text-subtitle-2 text-ink transition-colors hover:text-primary"
+                    >
+                      {link.label}
+                    </Link>
+                  </m.li>
+                ))}
+              </m.ul>
+              <div className="mt-6 flex flex-col gap-3">
+                <ButtonLink href={signup.href} onClick={close} fullWidth>
+                  {signup.label}
+                </ButtonLink>
+                <ButtonLink href={login.href} onClick={close} variant="secondary" fullWidth>
+                  {login.label}
+                </ButtonLink>
+              </div>
+            </nav>
+          </m.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

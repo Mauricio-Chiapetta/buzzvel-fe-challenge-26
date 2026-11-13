@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { ContactForm } from "@/components/ui/ContactForm";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -18,19 +19,25 @@ export function Contact({ content }: ContactProps) {
     <section id="contact" aria-labelledby="contact-title" className="bg-white py-15 lg:py-25">
       <Container className="flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex flex-col gap-8 lg:max-w-120 lg:flex-1 lg:gap-10">
-          <SectionHeading
-            id="contact-title"
-            eyebrow={content.eyebrow}
-            title={content.title}
-            description={content.description}
-            descriptionSize="sm"
-          />
+          <Reveal>
+            <SectionHeading
+              id="contact-title"
+              eyebrow={content.eyebrow}
+              title={content.title}
+              description={content.description}
+              descriptionSize="sm"
+            />
+          </Reveal>
 
-          <ul className="flex flex-col gap-4">
+          <RevealGroup as="ul" stagger={0.12} delay={0.1} className="flex flex-col gap-4">
             {content.info.map((item) => {
               const icon = icons[item.icon];
               return (
-                <li key={item.label} className="flex items-center gap-4 rounded-xl bg-cream p-4 lg:p-5">
+                <RevealItem
+                  as="li"
+                  key={item.label}
+                  className="flex items-center gap-4 rounded-xl bg-cream p-4 lg:p-5"
+                >
                   <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary-light">
                     <Image src={icon.src} alt="" width={icon.size} height={icon.size} unoptimized />
                   </span>
@@ -44,13 +51,15 @@ export function Contact({ content }: ContactProps) {
                       <span className="text-ink-tertiary">{item.value}</span>
                     )}
                   </span>
-                </li>
+                </RevealItem>
               );
             })}
-          </ul>
+          </RevealGroup>
         </div>
 
-        <ContactForm content={content.form} />
+        <Reveal variant="scale" delay={0.15} className="w-full lg:w-auto lg:shrink-0">
+          <ContactForm content={content.form} />
+        </Reveal>
       </Container>
     </section>
   );

@@ -26,7 +26,8 @@ export function buttonClasses({
   fullWidth?: boolean;
 } = {}) {
   return cn(
-    "inline-flex items-center justify-center rounded-lg text-body-1 font-bold whitespace-nowrap transition-colors",
+    "inline-flex items-center justify-center rounded-lg text-body-1 font-bold whitespace-nowrap",
+    "transition-[color,background-color,border-color,filter,scale] duration-200 motion-safe:active:scale-[0.97]",
     variantClasses[variant],
     sizeClasses[size],
     fullWidth && "w-full",

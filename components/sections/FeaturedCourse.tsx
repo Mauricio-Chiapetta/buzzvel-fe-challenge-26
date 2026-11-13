@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Reveal, RevealGroup, RevealItem } from "@/components/motion/Reveal";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Eyebrow } from "@/components/ui/Eyebrow";
@@ -21,7 +22,7 @@ export function FeaturedCourse({ content }: FeaturedCourseProps) {
     >
       <Container className="flex flex-col gap-10 lg:flex-row lg:items-center lg:gap-15">
         {/* Image with "Featured course" badge */}
-        <div className="relative lg:flex-1">
+        <Reveal variant="left" className="relative lg:flex-1">
           <div className="relative h-70 overflow-hidden rounded-2xl md:h-96 lg:h-102">
             <Image
               src={image.src}
@@ -34,31 +35,41 @@ export function FeaturedCourse({ content }: FeaturedCourseProps) {
           <p className="absolute -top-3 -left-3 rounded-md bg-yellow px-3 py-1.5 text-overline font-semibold text-ink uppercase">
             {badge}
           </p>
-        </div>
+        </Reveal>
 
         {/* Copy */}
-        <div className="flex flex-col lg:flex-1">
-          <Eyebrow tone="inverse">{eyebrow}</Eyebrow>
-          <h2
-            id="featured-course-title"
-            className="pt-4 font-display text-h3-mobile font-extrabold md:text-h3"
-          >
-            {title}
-          </h2>
-          <p className="pt-5 text-body-1 lg:text-subtitle-2">{description}</p>
-          <p className="pt-6 text-body-1 lg:text-subtitle-2">
-            with {instructor.name} · {instructor.role}
-          </p>
+        <RevealGroup stagger={0.08} delay={0.15} className="flex flex-col lg:flex-1">
+          <RevealItem>
+            <Eyebrow tone="inverse">{eyebrow}</Eyebrow>
+          </RevealItem>
+          <RevealItem>
+            <h2
+              id="featured-course-title"
+              className="pt-4 font-display text-h3-mobile font-extrabold md:text-h3"
+            >
+              {title}
+            </h2>
+          </RevealItem>
+          <RevealItem>
+            <p className="pt-5 text-body-1 lg:text-subtitle-2">{description}</p>
+          </RevealItem>
+          <RevealItem>
+            <p className="pt-6 text-body-1 lg:text-subtitle-2">
+              with {instructor.name} · {instructor.role}
+            </p>
+          </RevealItem>
 
-          <ul aria-label="Course details" className="flex flex-wrap gap-3 pt-6">
-            {tags.map((tag) => (
-              <li key={tag} className="rounded-lg border border-line px-3.5 py-1.5 text-body-1">
-                {tag}
-              </li>
-            ))}
-          </ul>
+          <RevealItem>
+            <ul aria-label="Course details" className="flex flex-wrap gap-3 pt-6">
+              {tags.map((tag) => (
+                <li key={tag} className="rounded-lg border border-line px-3.5 py-1.5 text-body-1">
+                  {tag}
+                </li>
+              ))}
+            </ul>
+          </RevealItem>
 
-          <div className="flex flex-col gap-3 pt-8 sm:flex-row sm:items-center">
+          <RevealItem className="flex flex-col gap-3 pt-8 sm:flex-row sm:items-center">
             <ButtonLink
               href={primaryCta.href}
               variant="accent"
@@ -80,8 +91,8 @@ export function FeaturedCourse({ content }: FeaturedCourseProps) {
                 className="transition-transform motion-safe:group-hover:translate-x-1"
               />
             </Link>
-          </div>
-        </div>
+          </RevealItem>
+        </RevealGroup>
       </Container>
     </section>
   );

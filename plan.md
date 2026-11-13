@@ -30,7 +30,7 @@ Construir **uma página completa e responsiva** (desktop + mobile, funcionando t
 - **Tailwind CSS 4** (config via `@theme` no `globals.css`, sem `tailwind.config.js`).
 - **Fontes:** `next/font` (Google ou local, conforme o Figma) com `display: swap` e subset `latin`.
 - **Imagens:** exportadas do Figma (SVG para ícones/logos, WebP/AVIF para fotos) em `public/`, renderizadas com `next/image`.
-- **Animações (fase posterior):** CSS/Tailwind primeiro; Motion (`motion/react`) só se precisar de algo mais elaborado. Sempre respeitando `prefers-reduced-motion`.
+- **Animações:** **Motion** (`motion/react`, ex-Framer Motion) via `LazyMotion` + `m` (features carregadas sob demanda) e `MotionConfig reducedMotion="user"`. Exceções em CSS puro: entrada do Hero (sem JS → não atrasa o LCP) e flutuações em loop (custo zero de JS).
 - **Testes:** Vitest + React Testing Library (unitários/componentes) e, se der tempo, Playwright para um smoke test e2e + checagem de acessibilidade com axe.
 - **Commits:** feitos manualmente pelo autor (o agente não commita).
 
@@ -101,9 +101,21 @@ Ordem (ver mapa na seção 4):
 - [ ] Estados de hover/focus/active consistentes com o design.
 
 ### Etapa 3 — Animações (sua parte criativa)
-- [ ] Definir junto as animações (entrada de seções, hover, micro-interações, etc.).
-- [ ] Toda animação desligada/reduzida com `prefers-reduced-motion` (CSS `motion-safe:`/`motion-reduce:` ou hook).
-- [ ] Animar só `transform`/`opacity` para não causar layout shift (CLS).
+- [x] Primeira rodada (ideias do Claude) — o autor vai polir/ajustar:
+  - Hero: entrada escalonada em CSS (H1 só com transform, para não atrasar o LCP) + cards "120+" e "4.9" flutuando.
+  - Header: fundo translúcido com blur + sombra ao rolar; scrollspy com sublinhado que desliza entre os links (`layoutId`).
+  - Menu mobile: painel desliza, links em cascata, ícone ☰/✕ gira.
+  - Reveal ao rolar (`Reveal`, `RevealGroup`, `RevealItem` em `components/motion/`) em todas as seções, com stagger.
+  - Categories: cards sobem com sombra no hover.
+  - How It Works: linha conectora "se desenha" (scaleX) e passos em sequência.
+  - Testimonial: contadores 24K+ / 120+ / 92% contam a partir de 0 (`CountUp`, leitor de tela sempre recebe o valor final).
+  - People: fotos aparecem em cascata, colunas com parallax em velocidades diferentes, zoom leve no hover.
+  - Contact: cards e formulário entram em sequência.
+  - Final CTA: conteúdo em cascata; formas flutuam (CSS) e seguem o mouse com profundidades diferentes (parallax).
+  - Botões: leve "afundar" ao clicar.
+- [x] Toda animação respeita `prefers-reduced-motion` (`MotionConfig reducedMotion="user"`, `motion-safe:` no CSS, parallax/contador desligados via `useReducedMotion`, e uma regra CSS global de segurança).
+- [x] Só `transform`/`opacity` (e `scale`/`translate`) são animados — sem layout shift.
+- [ ] Polimento do autor (ajustar intensidade, remover/adicionar efeitos).
 
 ### Etapa 4 — Testes
 Básicos mas significativos:
