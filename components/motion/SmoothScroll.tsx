@@ -43,7 +43,7 @@ function AnchorScroll() {
       event.preventDefault();
 
       if (hash === "#") {
-        if (lenis) lenis.scrollTo(0);
+        if (lenis) lenis.scrollTo(0, { force: true });
         else window.scrollTo({ top: 0 });
         return;
       }
@@ -51,7 +51,8 @@ function AnchorScroll() {
       const target = document.getElementById(decodeURIComponent(hash.slice(1)));
       if (!target) return;
 
-      if (lenis) lenis.scrollTo(target, { offset: -HEADER_OFFSET });
+      // `force`: links inside the mobile menu are clicked while Lenis is stopped (scroll lock).
+      if (lenis) lenis.scrollTo(target, { offset: -HEADER_OFFSET, force: true });
       else target.scrollIntoView();
 
       history.pushState(null, "", hash);

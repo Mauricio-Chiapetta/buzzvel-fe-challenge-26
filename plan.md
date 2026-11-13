@@ -197,11 +197,13 @@ Alterações feitas **de propósito** em relação ao Figma original da Buzzvel.
 |---|---|---|---|---|
 | 1 | Hero (mobile/tablet) | Imagem com os cards flutuantes **acima** do título e dos textos | Imagem movida para **abaixo** dos textos e CTAs | O título (H1) e os botões aparecem logo no primeiro scroll, a mensagem principal vem antes da ilustração e a ordem visual passa a seguir a ordem do HTML (melhor para leitores de tela). |
 | 2 | Categories (todos os breakpoints) | Cards só com o número (01–04) | Ícone animado ao lado do número em cada card ([lucide-animated](https://lucide-animated.com), MIT): Product Design → `pen-tool`, Technology → `cpu`, Business → `trending-up`, Creative → `sparkles`. O ícone anima uma vez quando o card entra na tela e de novo no hover/foco | Reforça visualmente cada categoria e dá personalidade/micro-interação aos cards, sem mudar layout nem hierarquia do design. |
+| 3 | Header (mobile/tablet) | Ícone de menu estático (☰) do Figma; estado aberto não existia | Ícone `menu` do lucide-animated que faz morph ☰ → ✕ ao abrir/fechar; painel abre como cortina (clip-path), links sobem por máscara, divisórias se desenham, fundo da página escurece/desfoca e a rolagem trava enquanto aberto | Feedback claro do estado aberto/fechado e transição coerente com o resto das animações do site. |
 
 Rascunho para o README (inglês):
 > **Intentional design changes**
 > - **Hero on mobile:** the original design places the image above the headline. I moved it below the copy and CTAs so the main message and the primary actions are visible in the first viewport, and so the visual order matches the DOM/reading order.
 > - **Category icons:** I added a small animated icon next to each category number (from [lucide-animated](https://lucide-animated.com), adapted to the project's lazy-loaded Motion setup). Each icon plays once as its card scrolls in and again on hover or keyboard focus — a small touch of personality that reinforces each category without changing the layout.
+> - **Mobile menu:** the static hamburger from the design was replaced by an animated icon (lucide-animated `menu`) that morphs into a close icon; the panel opens as a top-down curtain with masked links, the page behind dims, and scrolling is locked while it is open.
 
 ## 6. Cronograma sugerido
 | Dia | Foco |
